@@ -1,0 +1,1470 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AURORA | متجر فاخر متكامل</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        gold: {
+                            50: '#fdfbf7',
+                            100: '#f9f3e6',
+                            200: '#f2e5c8',
+                            300: '#e6d0a0',
+                            400: '#d9b66f',
+                            500: '#c59b42',
+                            600: '#a87f33',
+                            700: '#876229',
+                            800: '#6e4f24',
+                            900: '#5a4020',
+                        },
+                        lux: {
+                            dark: '#0e0e0e',
+                            card: '#161616',
+                            border: '#2a2a2a',
+                            light: '#faf9f6',
+                            lightCard: '#ffffff',
+                            lightBorder: '#e5e7eb'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Cairo', 'Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts: Cairo & Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Cairo', 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #d9b66f; border-radius: 3px; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-lux-light dark:bg-lux-dark text-gray-900 dark:text-gray-100 transition-colors duration-300 min-h-screen flex flex-col">
+
+    <!-- App Root -->
+    <div id="app" class="flex flex-col min-h-screen"></div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed bottom-6 left-6 z-50 flex flex-col space-y-3 pointer-events-none"></div>
+
+    <!-- Main JavaScript Application Logic with Full Fixes -->
+    <script>
+        /* ==========================================================================
+           1. COMPREHENSIVE LOCALIZATION (ARABIC / ENGLISH)
+           ========================================================================== */
+        const TRANSLATIONS = {
+            ar: {
+                storeName: 'AURORA',
+                storeSubtitle: 'متجر فاخر متكامل',
+                loginTitle: 'تسجيل دخول العملاء',
+                loginSubtitle: 'مرحباً بك في متجر AURORA الفاخر',
+                emailLabel: 'البريد الإلكتروني',
+                passwordLabel: 'كلمة المرور',
+                loginBtn: 'تسجيل الدخول للتسوق',
+                adminPortalLink: 'الدخول إلى لوحة تحكم المدير',
+                adminLoginTitle: 'بوابة إدارة المتجر',
+                adminLoginSubtitle: 'تسجيل دخول المدير المعتمد فقط',
+                adminLoginBtn: 'الدخول إلى لوحة التحكم',
+                backToStore: 'العودة إلى واجهة متجر العملاء',
+                searchPlaceholder: 'ابحث عن الساعات، الحقائب، العطور، أو الماركات...',
+                searchResultsFor: 'نتائج البحث عن:',
+                noSearchResults: 'عذراً، لم نجد أي منتجات تطابق بحثك.',
+                addToCart: 'إضافة للسلة',
+                outOfStock: 'نفذت الكمية',
+                inStock: 'متوفر في المخزون',
+                cartTitle: 'سلة الشراء',
+                wishlistTitle: 'قائمة المفضلة',
+                checkoutTitle: 'إتمام الطلب في متجر أورورا',
+                fullName: 'الاسم الكامل',
+                phone: 'رقم الجوال',
+                deliveryAddress: 'عنوان التوصيل بالتفصيل (المحافظة، المدينة، الشارع، المبنى)',
+                subtotal: 'المجموع الفرعي',
+                shipping: 'مصاريف الشحن',
+                freeShipping: 'مجاناً',
+                total: 'الإجمالي النهائي',
+                confirmOrder: 'تأكيد الطلب (الدفع كاش عند الاستلام)',
+                orderSuccess: 'شكراً لطلبك!',
+                orderNum: 'رقم الطلب',
+                myOrders: 'طلباتي السابقة',
+                adminDashboard: 'لوحة تحكم المدير المركزي',
+                overview: 'نظرة عامة والماليات',
+                productsMgmt: 'إدارة المنتجات',
+                addProduct: 'إضافة منتج',
+                ordersMgmt: 'إدارة الطلبات',
+                totalSales: 'إجمالي المبيعات',
+                totalOrders: 'إجمالي الطلبات',
+                activeProducts: 'المنتجات النشطة',
+                savePublish: 'حفظ ونشر في المتجر فوراً',
+                logout: 'تسجيل الخروج',
+                viewDetails: 'عرض تفاصيل الطلب الكاملة',
+                currentStatus: 'الحالة الحالية',
+                productName: 'اسم المنتج',
+                sku: 'SKU',
+                regularPrice: 'السعر العادي',
+                salePrice: 'سعر البيع',
+                stock: 'المخزون',
+                actions: 'الإجراءات',
+                edit: 'تعديل',
+                delete: 'حذف',
+                uploadImages: 'رفع صور المنتج من الجهاز (JPG, PNG, WEBP)',
+                browseFiles: 'تصفح الملفات',
+                customerInfo: 'معلومات العميل',
+                shippingInfo: 'معلومات الشحن والدفع',
+                orderedProducts: 'المنتجات المطلوبة',
+                quantity: 'الكمية',
+                unitPrice: 'سعر الوحدة',
+                itemTotal: 'الإجمالي'
+            },
+            en: {
+                storeName: 'AURORA',
+                storeSubtitle: 'Luxury E-Commerce Store',
+                loginTitle: 'Customer Login',
+                loginSubtitle: 'Welcome to AURORA Luxury Store',
+                emailLabel: 'Email Address',
+                passwordLabel: 'Password',
+                loginBtn: 'Login to Store',
+                adminPortalLink: 'Access Administrator Dashboard',
+                adminLoginTitle: 'Store Administration Portal',
+                adminLoginSubtitle: 'Authorized Administrator Access Only',
+                adminLoginBtn: 'Login to Dashboard',
+                backToStore: 'Back to Customer Store',
+                searchPlaceholder: 'Search watches, bags, fragrances, brands...',
+                searchResultsFor: 'Search results for:',
+                noSearchResults: 'Sorry, no products match your search.',
+                addToCart: 'Add to Cart',
+                outOfStock: 'Out of Stock',
+                inStock: 'In Stock',
+                cartTitle: 'Shopping Cart',
+                wishlistTitle: 'Wishlist',
+                checkoutTitle: 'AURORA Checkout',
+                fullName: 'Full Name',
+                phone: 'Phone Number',
+                deliveryAddress: 'Detailed Address (Governorate, City, Street, Building)',
+                subtotal: 'Subtotal',
+                shipping: 'Shipping Fee',
+                freeShipping: 'Free',
+                total: 'Final Total',
+                confirmOrder: 'Confirm Order (Cash on Delivery)',
+                orderSuccess: 'Thank you for your order!',
+                orderNum: 'Order Number',
+                myOrders: 'My Orders',
+                adminDashboard: 'Central Administrator Dashboard',
+                overview: 'Overview & Finances',
+                productsMgmt: 'Product Management',
+                addProduct: 'Add Product',
+                ordersMgmt: 'Order Management',
+                totalSales: 'Total Sales',
+                totalOrders: 'Total Orders',
+                activeProducts: 'Active Products',
+                savePublish: 'Save & Publish Immediately',
+                logout: 'Logout',
+                viewDetails: 'View Order Details',
+                currentStatus: 'Current Status',
+                productName: 'Product Name',
+                sku: 'SKU',
+                regularPrice: 'Regular Price',
+                salePrice: 'Sale Price',
+                stock: 'Stock',
+                actions: 'Actions',
+                edit: 'Edit',
+                delete: 'Delete',
+                uploadImages: 'Upload Product Images (JPG, PNG, WEBP)',
+                browseFiles: 'Browse Files',
+                customerInfo: 'Customer Information',
+                shippingInfo: 'Shipping & Payment Info',
+                orderedProducts: 'Ordered Products',
+                quantity: 'Quantity',
+                unitPrice: 'Unit Price',
+                itemTotal: 'Total'
+            }
+        };
+
+        function t(key) {
+            const lang = state.lang || 'ar';
+            return TRANSLATIONS[lang][key] || TRANSLATIONS['ar'][key] || key;
+        }
+
+        /* ==========================================================================
+           2. DATABASE INITIALIZATION & STATE SETUP
+           ========================================================================== */
+        const DEFAULT_CATEGORIES = [
+            { id: 'cat-1', name: 'ساعات فاخرة', slug: 'luxury-watches', icon: 'fa-clock' },
+            { id: 'cat-2', name: 'أزياء راقية', slug: 'haute-couture', icon: 'fa-shirt' },
+            { id: 'cat-3', name: 'حقائب جلدية', slug: 'leather-goods', icon: 'fa-bag-shopping' },
+            { id: 'cat-4', name: 'عطور شرقية وغربية', slug: 'fragrances', icon: 'fa-spray-can-sparkles' },
+            { id: 'cat-5', name: 'مجوهرات وألماس', slug: 'jewelry', icon: 'fa-gem' }
+        ];
+
+        const DEFAULT_BRANDS = [
+            { id: 'brand-1', name: 'AURORA Haute Horlogerie' },
+            { id: 'brand-2', name: 'Maison de Caire' },
+            { id: 'brand-3', name: 'Nile Leather Co.' },
+            { id: 'brand-4', name: 'Pharaonic Scents' }
+        ];
+
+        const DEFAULT_PRODUCTS = [
+            {
+                id: 'prod-1',
+                name: 'ساعة أورورا الذهبية الملكية',
+                sku: 'AUR-W-001',
+                category: 'ساعات فاخرة',
+                brand: 'AURORA Haute Horlogerie',
+                regularPrice: 18500,
+                salePrice: 14999,
+                stock: 12,
+                status: 'Published',
+                featured: true,
+                shortDesc: 'ساعة يد رجالية مصنوعة من الذهب الخالص عيار 18 مع زجاج سفاير مضاد للخدش.',
+                description: 'تجمع ساعة أورورا الملكية بين دقة الصناعة السويسرية والفخامة الشرقية العريقة.',
+                images: [
+                    'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80',
+                    'https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=800&q=80'
+                ],
+                createdAt: new Date().toISOString()
+            },
+            {
+                id: 'prod-2',
+                name: 'حقيبة كليوباترا الجلدية المصنوعة يدوياً',
+                sku: 'AUR-B-002',
+                category: 'حقائب جلدية',
+                brand: 'Nile Leather Co.',
+                regularPrice: 6200,
+                salePrice: 4950,
+                stock: 8,
+                status: 'Published',
+                featured: true,
+                shortDesc: 'حقيبة نسائية فاخرة من أجود أنواع الجلود الطبيعية بتصميم مستوحى من التراث.',
+                description: 'صُنعت يدوياً على يد أهرامات الحرفيين بجلود إيطالية ومصرية فاخرة.',
+                images: [
+                    'https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=80'
+                ],
+                createdAt: new Date().toISOString()
+            }
+        ];
+
+        function getDB() {
+            if (!localStorage.getItem('aurora_products')) localStorage.setItem('aurora_products', JSON.stringify(DEFAULT_PRODUCTS));
+            if (!localStorage.getItem('aurora_categories')) localStorage.setItem('aurora_categories', JSON.stringify(DEFAULT_CATEGORIES));
+            if (!localStorage.getItem('aurora_brands')) localStorage.setItem('aurora_brands', JSON.stringify(DEFAULT_BRANDS));
+            if (!localStorage.getItem('aurora_cart')) localStorage.setItem('aurora_cart', JSON.stringify([]));
+            if (!localStorage.getItem('aurora_wishlist')) localStorage.setItem('aurora_wishlist', JSON.stringify([]));
+            if (!localStorage.getItem('aurora_orders')) localStorage.setItem('aurora_orders', JSON.stringify([]));
+            if (!localStorage.getItem('aurora_customers')) {
+                localStorage.setItem('aurora_customers', JSON.stringify([
+                    { id: 'cust-1', name: 'محمد الشريف', email: 'customer@aurora-eg.com', password: 'password123', phone: '01012345678' }
+                ]));
+            }
+            if (!localStorage.getItem('aurora_admins')) {
+                localStorage.setItem('aurora_admins', JSON.stringify([
+                    { id: 'adm-1', name: 'مدير المتجر الرئيسي', email: 'admin@aurora-eg.com', password: 'admin123' }
+                ]));
+            }
+            if (!localStorage.getItem('aurora_current_session')) {
+                localStorage.setItem('aurora_current_session', JSON.stringify({ type: null, user: null }));
+            }
+            if (!localStorage.getItem('aurora_lang')) localStorage.setItem('aurora_lang', 'ar');
+            if (!localStorage.getItem('aurora_theme')) localStorage.setItem('aurora_theme', 'dark');
+
+            return {
+                products: JSON.parse(localStorage.getItem('aurora_products')),
+                categories: JSON.parse(localStorage.getItem('aurora_categories')),
+                brands: JSON.parse(localStorage.getItem('aurora_brands')),
+                cart: JSON.parse(localStorage.getItem('aurora_cart')),
+                wishlist: JSON.parse(localStorage.getItem('aurora_wishlist')),
+                orders: JSON.parse(localStorage.getItem('aurora_orders')),
+                customers: JSON.parse(localStorage.getItem('aurora_customers')),
+                admins: JSON.parse(localStorage.getItem('aurora_admins')),
+                session: JSON.parse(localStorage.getItem('aurora_current_session'))
+            };
+        }
+
+        function saveDB(key, data) {
+            localStorage.setItem('aurora_' + key, JSON.stringify(data));
+            renderApp();
+        }
+
+        let state = {
+            currentRoute: 'login',
+            selectedProductId: null,
+            selectedOrderId: null,
+            selectedCategory: 'all',
+            searchQuery: '',
+            cartDrawerOpen: false,
+            wishlistDrawerOpen: false,
+            adminTab: 'overview',
+            editingProduct: null,
+            orderSuccessData: null,
+            lang: localStorage.getItem('aurora_lang') || 'ar',
+            theme: localStorage.getItem('aurora_theme') || 'dark',
+            mobileMenuOpen: false
+        };
+
+        function formatEGP(amount) {
+            const num = Number(amount) || 0;
+            return new Intl.NumberFormat(state.lang === 'ar' ? 'ar-EG' : 'en-US', { style: 'currency', currency: 'EGP', maximumFractionDigits: 0 }).format(num).replace('ج.م.‏', 'ج.م');
+        }
+
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+            const toast = document.createElement('div');
+            toast.className = `pointer-events-auto px-5 py-3 rounded-xl shadow-2xl text-white text-sm font-semibold flex items-center space-x-3 space-x-reverse transition-all duration-300 transform translate-y-2 opacity-0 ${
+                type === 'success' ? 'bg-emerald-700 border border-emerald-500' : 'bg-red-700 border border-red-500'
+            }`;
+            toast.innerHTML = `
+                <i class="fa-solid ${type === 'success' ? 'fa-circle-check text-emerald-300' : 'fa-circle-exclamation text-red-300'} text-lg"></i>
+                <span>${message}</span>
+            `;
+            container.appendChild(toast);
+            setTimeout(() => { toast.classList.remove('translate-y-2', 'opacity-0'); }, 10);
+            setTimeout(() => {
+                toast.classList.add('translate-y-2', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+
+        function toggleLanguage() {
+            state.lang = state.lang === 'ar' ? 'en' : 'ar';
+            localStorage.setItem('aurora_lang', state.lang);
+            renderApp();
+        }
+
+        function toggleTheme() {
+            state.theme = state.theme === 'dark' ? 'light' : 'dark';
+            localStorage.setItem('aurora_theme', state.theme);
+            renderApp();
+        }
+
+        /* ==========================================================================
+           3. ROUTING & ACCESS CONTROLLER
+           ========================================================================== */
+        function renderApp() {
+            const db = getDB();
+            const root = document.getElementById('app');
+            const session = db.session;
+
+            document.documentElement.setAttribute('dir', state.lang === 'ar' ? 'rtl' : 'ltr');
+            document.documentElement.setAttribute('lang', state.lang);
+            if (state.theme === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+
+            let contentHTML = '';
+
+            if (state.currentRoute.startsWith('admin/')) {
+                if (state.currentRoute === 'admin/login') {
+                    contentHTML = renderAdminLoginView();
+                } else {
+                    if (!session || session.type !== 'admin') {
+                        state.currentRoute = 'admin/login';
+                        renderApp();
+                        return;
+                    }
+                    if (state.currentRoute === 'admin/dashboard') contentHTML = renderAdminDashboardView(db);
+                    else if (state.currentRoute === 'admin/order-detail') contentHTML = renderAdminOrderDetailView(db);
+                }
+            } else {
+                if (state.currentRoute === 'login') {
+                    contentHTML = renderCustomerLoginView();
+                } else {
+                    if (!session || session.type !== 'customer') {
+                        state.currentRoute = 'login';
+                        renderApp();
+                        return;
+                    }
+
+                    if (state.currentRoute === 'store') contentHTML = renderStorefrontView(db);
+                    else if (state.currentRoute === 'product-detail') contentHTML = renderProductDetailView(db);
+                    else if (state.currentRoute === 'cart') contentHTML = renderCartPageView(db);
+                    else if (state.currentRoute === 'checkout') contentHTML = renderCheckoutView(db);
+                    else if (state.currentRoute === 'my-orders') contentHTML = renderCustomerOrdersView(db);
+                    else if (state.currentRoute === 'order-detail') contentHTML = renderCustomerOrderDetailView(db);
+                    else if (state.currentRoute === 'order-success') contentHTML = renderOrderSuccessView(db);
+                    else contentHTML = renderStorefrontView(db);
+                }
+            }
+
+            const isAdminRoute = state.currentRoute.startsWith('admin/');
+            const isAuthRoute = state.currentRoute === 'login' || state.currentRoute === 'admin/login';
+
+            root.innerHTML = `
+                ${!isAuthRoute ? (!isAdminRoute ? renderCustomerHeader(db) : renderAdminHeader(db)) : ''}
+                <main class="flex-grow">${contentHTML}</main>
+                ${!isAuthRoute && !isAdminRoute ? renderCustomerFooter() : ''}
+                ${!isAdminRoute && !isAuthRoute ? renderCartDrawer(db) + renderWishlistDrawer(db) : ''}
+            `;
+        }
+
+        /* ==========================================================================
+           4. AUTHENTICATION VIEWS
+           ========================================================================== */
+        function renderCustomerLoginView() {
+            return `
+                <div class="min-h-screen flex items-center justify-center px-4 py-12 bg-lux-light dark:bg-lux-dark">
+                    <div class="max-w-md w-full bg-white dark:bg-lux-card border border-gray-200 dark:border-lux-border rounded-3xl p-8 lg:p-10 shadow-2xl space-y-8">
+                        <div class="flex justify-between items-center">
+                            <button onclick="toggleTheme()" class="p-2.5 rounded-xl bg-gray-100 dark:bg-lux-dark text-gold-500 text-sm font-bold shadow"><i class="fa-solid fa-${state.theme==='dark'?'sun':'moon'}"></i></button>
+                            <button onclick="toggleLanguage()" class="px-3.5 py-1.5 rounded-xl bg-gray-100 dark:bg-lux-dark text-xs font-bold text-gold-500 shadow">${state.lang==='ar'?'English':'العربية'}</button>
+                        </div>
+                        <div class="text-center space-y-2">
+                            <div class="w-14 h-14 rounded-full bg-gold-500/20 text-gold-500 border border-gold-500/50 mx-auto flex items-center justify-center text-2xl mb-4">
+                                <i class="fa-solid fa-gem"></i>
+                            </div>
+                            <h1 class="text-3xl font-black">${t('loginTitle')}</h1>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">${t('loginSubtitle')}</p>
+                        </div>
+
+                        <form onsubmit="handleCustomerLogin(event)" class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-bold mb-1.5 text-gray-700 dark:text-gray-300">${t('emailLabel')} *</label>
+                                <input type="email" id="login-email" required placeholder="customer@aurora-eg.com" class="w-full bg-gray-50 dark:bg-lux-dark border border-gray-200 dark:border-lux-border rounded-2xl py-3 px-4 text-sm focus:outline-none focus:border-gold-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold mb-1.5 text-gray-700 dark:text-gray-300">${t('passwordLabel')} *</label>
+                                <input type="password" id="login-password" required placeholder="••••••••" class="w-full bg-gray-50 dark:bg-lux-dark border border-gray-200 dark:border-lux-border rounded-2xl py-3 px-4 text-sm focus:outline-none focus:border-gold-500">
+                            </div>
+                            <button type="submit" class="w-full bg-gold-500 hover:bg-gold-600 text-lux-dark font-bold py-3.5 rounded-2xl shadow-xl transition-all">
+                                ${t('loginBtn')}
+                            </button>
+                        </form>
+
+                        <div class="text-center pt-4 border-t border-gray-200 dark:border-lux-border">
+                            <button onclick="state.currentRoute='admin/login'; renderApp();" class="text-xs text-gray-500 hover:text-gold-500 transition-colors">
+                                ${t('adminPortalLink')} <i class="fa-solid fa-arrow-left mr-1"></i>
+                            </button>
+                        </div>
+
+                        <div class="bg-gold-500/10 border border-gold-500/30 rounded-2xl p-4 text-xs text-gray-600 dark:text-gray-300 space-y-1">
+                            <p class="font-bold text-gold-500"><i class="fa-solid fa-info-circle ml-1"></i> حساب العميل الافتراضي:</p>
+                            <p>البريد: <strong class="select-all">customer@aurora-eg.com</strong></p>
+                            <p>كلمة المرور: <strong class="select-all">password123</strong></p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function handleCustomerLogin(e) {
+            e.preventDefault();
+            const db = getDB();
+            const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value.trim();
+
+            const customer = db.customers.find(c => c.email.toLowerCase() === email.toLowerCase() && c.password === password);
+            if (customer) {
+                const session = { type: 'customer', user: customer };
+                localStorage.setItem('aurora_current_session', JSON.stringify(session));
+                showToast(`أهلاً بك عودةً يا ${customer.name}`);
+                state.currentRoute = 'store';
+                renderApp();
+            } else {
+                showToast('البريد الإلكتروني أو كلمة المرور غير صحيحة', 'error');
+            }
+        }
+
+        function logoutCustomer() {
+            localStorage.setItem('aurora_current_session', JSON.stringify({ type: null, user: null }));
+            showToast('تم تسجيل الخروج بنجاح');
+            state.currentRoute = 'login';
+            renderApp();
+        }
+
+        function renderAdminLoginView() {
+            return `
+                <div class="min-h-screen flex items-center justify-center px-4 py-12 bg-lux-light dark:bg-lux-dark">
+                    <div class="max-w-md w-full bg-white dark:bg-lux-card border border-gray-200 dark:border-lux-border rounded-3xl p-8 lg:p-10 shadow-2xl space-y-8">
+                        <div class="flex justify-between items-center">
+                            <button onclick="toggleTheme()" class="p-2.5 rounded-xl bg-gray-100 dark:bg-lux-dark text-gold-500 text-sm font-bold shadow"><i class="fa-solid fa-${state.theme==='dark'?'sun':'moon'}"></i></button>
+                            <button onclick="toggleLanguage()" class="px-3.5 py-1.5 rounded-xl bg-gray-100 dark:bg-lux-dark text-xs font-bold text-gold-500 shadow">${state.lang==='ar'?'English':'العربية'}</button>
+                        </div>
+                        <div class="text-center space-y-2">
+                            <div class="w-14 h-14 rounded-full bg-gold-500/20 text-gold-500 border border-gold-500/50 mx-auto flex items-center justify-center text-2xl mb-4">
+                                <i class="fa-solid fa-lock"></i>
+                            </div>
+                            <h1 class="text-3xl font-black">${t('adminLoginTitle')}</h1>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">${t('adminLoginSubtitle')}</p>
+                        </div>
+
+                        <form onsubmit="handleAdminLogin(event)" class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-bold mb-1.5 text-gray-700 dark:text-gray-300">البريد الإلكتروني للإدارة *</label>
+                                <input type="email" id="admin-email" required placeholder="admin@aurora-eg.com" class="w-full bg-gray-50 dark:bg-lux-dark border border-gray-200 dark:border-lux-border rounded-2xl py-3 px-4 text-sm focus:outline-none focus:border-gold-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold mb-1.5 text-gray-700 dark:text-gray-300">كلمة المرور السرية *</label>
+                                <input type="password" id="admin-password" required placeholder="••••••••" class="w-full bg-gray-50 dark:bg-lux-dark border border-gray-200 dark:border-lux-border rounded-2xl py-3 px-4 text-sm focus:outline-none focus:border-gold-500">
+                            </div>
+                            <button type="submit" class="w-full bg-gold-500 hover:bg-gold-600 text-lux-dark font-bold py-3.5 rounded-2xl shadow-xl transition-all">
+                                ${t('adminLoginBtn')}
+                            </button>
+                        </form>
+
+                        <div class="text-center pt-4 border-t border-gray-200 dark:border-lux-border">
+                            <button onclick="state.currentRoute='login'; renderApp();" class="text-xs text-gray-500 hover:text-gold-500 transition-colors">
+                                <i class="fa-solid fa-arrow-right ml-1"></i> ${t('backToStore')}
+                            </button>
+                        </div>
+
+                        <div class="bg-gold-500/10 border border-gold-500/30 rounded-2xl p-4 text-xs text-gray-600 dark:text-gray-300 space-y-1">
+                            <p class="font-bold text-gold-500"><i class="fa-solid fa-shield-halved ml-1"></i> بيانات المدير الافتراضية:</p>
+                            <p>البريد: <strong class="select-all">admin@aurora-eg.com</strong></p>
+                            <p>كلمة المرور: <strong class="select-all">admin123</strong></p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function handleAdminLogin(e) {
+            e.preventDefault();
+            const db = getDB();
+            const email = document.getElementById('admin-email').value.trim();
+            const password = document.getElementById('admin-password').value.trim();
+
+            const admin = db.admins.find(a => a.email.toLowerCase() === email.toLowerCase() && a.password === password);
+            if (admin) {
+                const session = { type: 'admin', user: admin };
+                localStorage.setItem('aurora_current_session', JSON.stringify(session));
+                showToast('مرحباً بك في لوحة تحكم المدير العام');
+                state.currentRoute = 'admin/dashboard';
+                renderApp();
+            } else {
+                showToast('بيانات اعتماد المدير غير صحيحة', 'error');
+            }
+        }
+
+        function logoutAdmin() {
+            localStorage.setItem('aurora_current_session', JSON.stringify({ type: null, user: null }));
+            showToast('تم تسجيل خروج المدير بنجاح');
+            state.currentRoute = 'admin/login';
+            renderApp();
+        }
+
+        /* ==========================================================================
+           5. STOREFRONT & FULLY FUNCTIONAL SEARCH SYSTEM
+           ========================================================================== */
+        function renderCustomerHeader(db) {
+            const cartCount = db.cart.reduce((s, i) => s + i.qty, 0);
+            const wishlistCount = db.wishlist.length;
+            const user = db.session.user;
+
+            return `
+                <header class="sticky top-0 z-40 bg-lux-light/95 dark:bg-lux-dark/95 backdrop-blur-md border-b border-gray-200 dark:border-lux-border">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+                        <div class="flex items-center space-x-4 space-x-reverse">
+                            <button onclick="state.currentRoute='store'; state.searchQuery=''; renderApp();" class="flex items-center space-x-3 space-x-reverse group text-right">
+                                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-gold-500 to-gold-300 flex items-center justify-center text-lux-dark shadow-md flex-shrink-0">
+                                    <i class="fa-solid fa-gem text-lg"></i>
+                                </div>
+                                <div class="hidden sm:block">
+                                    <span class="text-2xl font-black tracking-widest bg-gradient-to-r from-gold-400 to-gold-600 bg-clip-text text-transparent">${t('storeName')}</span>
+                                    <span class="block text-[10px] tracking-widest text-gray-400 uppercase font-semibold">Storefront</span>
+                                </div>
+                            </button>
+                        </div>
+
+                        <!-- Search Bar -->
+                        <div class="flex-1 max-w-lg mx-4 sm:mx-8">
+                            <div class="relative w-full">
+                                <input type="text" id="live-search-input" value="${state.searchQuery}" oninput="handleSearchInput(this.value)" onkeydown="handleSearchKeydown(event, this.value)" placeholder="${t('searchPlaceholder')}" 
+                                    class="w-full bg-white dark:bg-lux-card border border-gray-200 dark:border-lux-border rounded-full py-2.5 pr-10 pl-10 text-xs sm:text-sm focus:outline-none focus:border-gold-500 transition-all shadow-sm">
+                                <i class="fa-solid fa-search absolute right-3.5 top-3.5 text-gray-400"></i>
+                                ${state.searchQuery ? `<button onclick="state.searchQuery=''; renderApp();" class="absolute left-3.5 top-3 text-gray-400 hover:text-gold-500"><i class="fa-solid fa-xmark text-sm"></i></button>` : ''}
+                            </div>
+                        </div>
+
+                        <div class="flex items-center space-x-3 sm:space-x-5 space-x-reverse">
+                            <button onclick="toggleTheme()" class="p-2 text-gray-600 dark:text-gray-300 hover:text-gold-500 transition-colors">
+                                <i class="fa-solid fa-${state.theme==='dark'?'sun':'moon'} text-xl"></i>
+                            </button>
+
+                            <button onclick="toggleLanguage()" class="px-3 py-1.5 rounded-xl bg-gray-100 dark:bg-lux-card text-xs font-bold text-gold-500 border border-gray-200 dark:border-lux-border">
+                                ${state.lang==='ar'?'English':'العربية'}
+                            </button>
+
+                            <button onclick="toggleWishlistDrawer(true)" class="relative p-2 text-gray-600 dark:text-gray-300 hover:text-gold-500 transition-colors">
+                                <i class="fa-regular fa-heart text-xl"></i>
+                                ${wishlistCount > 0 ? `<span class="absolute top-0 right-0 w-5 h-5 bg-gold-500 text-lux-dark rounded-full text-xs font-bold flex items-center justify-center shadow">${wishlistCount}</span>` : ''}
+                            </button>
+
+                            <button onclick="toggleCartDrawer(true)" class="relative p-2 text-gray-600 dark:text-gray-300 hover:text-gold-500 transition-colors">
+                                <i class="fa-solid fa-bag-shopping text-xl"></i>
+                                ${cartCount > 0 ? `<span class="absolute top-0 right-0 w-5 h-5 bg-gold-500 text-lux-dark rounded-full text-xs font-bold flex items-center justify-center shadow">${cartCount}</span>` : ''}
+                            </button>
+
+                            <div class="relative group hidden md:block">
+                                <button class="flex items-center space-x-2 space-x-reverse p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-lux-card transition-colors">
+                                    <div class="w-9 h-9 rounded-full bg-gold-500/20 border border-gold-500/50 flex items-center justify-center text-gold-500 font-bold">
+                                        ${user.name.charAt(0)}
+                                    </div>
+                                    <span class="font-semibold text-sm">${user.name}</span>
+                                    <i class="fa-solid fa-chevron-down text-xs text-gray-400"></i>
+                                </button>
+                                <div class="absolute left-0 mt-2 w-48 bg-white dark:bg-lux-card border border-gray-200 dark:border-lux-border rounded-2xl shadow-2xl py-2 hidden group-hover:block z-50">
+                                    <button onclick="state.currentRoute='my-orders'; renderApp();" class="w-full text-right px-4 py-2.5 text-sm hover:bg-gold-500/10 hover:text-gold-500 flex items-center space-x-3 space-x-reverse">
+                                        <i class="fa-regular fa-rectangle-list w-5 text-gray-400"></i>
+                                        <span>${t('myOrders')}</span>
+                                    </button>
+                                    <button onclick="logoutCustomer()" class="w-full text-right px-4 py-2.5 text-sm hover:bg-red-500/10 text-red-500 flex items-center space-x-3 space-x-reverse">
+                                        <i class="fa-solid fa-right-from-bracket w-5"></i>
+                                        <span>${t('logout')}</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+            `;
+        }
+
+        function handleSearchInput(val) {
+            state.searchQuery = val;
+            // Real-time re-filter on store view
+            if (state.currentRoute === 'store') {
+                const resultsContainer = document.getElementById('products-grid-container');
+                if (resultsContainer) {
+                    const db = getDB();
+                    resultsContainer.innerHTML = renderProductsGridHTML(db);
+                }
+            }
+        }
+
+        function handleSearchKeydown(e, val) {
+            if (e.key === 'Enter') {
+                state.searchQuery = val;
+                state.currentRoute = 'store';
+                renderApp();
+            }
+        }
+
+        function renderProductsGridHTML(db) {
+            let products = db.products.filter(p => p.status === 'Published');
+            if (state.selectedCategory !== 'all') {
+                products = products.filter(p => p.category === state.selectedCategory);
+            }
+            if (state.searchQuery.trim() !== '') {
+                const q = state.searchQuery.toLowerCase().trim();
+                products = products.filter(p => 
+                    p.name.toLowerCase().includes(q) || 
+                    (p.description && p.description.toLowerCase().includes(q)) || 
+                    (p.shortDesc && p.shortDesc.toLowerCase().includes(q)) || 
+                    p.category.toLowerCase().includes(q) || 
+                    p.brand.toLowerCase().includes(q) ||
+                    p.sku.toLowerCase().includes(q)
+                );
+            }
+
+            if (products.length === 0) {
+                return `
+                    <div class="col-span-full py-20 text-center space-y-4">
+                        <div class="w-16 h-16 bg-gold-500/10 text-gold-500 rounded-full flex items-center justify-center mx-auto text-2xl">
+                            <i class="fa-solid fa-search"></i>
+                        </div>
+                        <h3 class="text-xl font-bold">${t('noSearchResults')}</h3>
+                        <p class="text-xs text-gray-400">${state.searchQuery ? `"${state.searchQuery}"` : ''}</p>
+                        <button onclick="state.searchQuery=''; state.selectedCategory='all'; renderApp();" class="px-6 py-2.5 bg-gold-500 text-lux-dark font-bold rounded-xl text-xs">عرض كافة المنتجات</button>
+                    </div>
+                `;
+            }
+
+            return products.map(p => renderStoreProductCard(p, db)).join('');
+        }
+
+        function renderStorefrontView(db) {
+            return `
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8 sm:space-y-12">
+                    <!-- Hero Banner -->
+                    <div class="bg-gradient-to-l from-lux-dark via-gray-900 to-lux-dark rounded-3xl p-8 sm:p-12 text-white border border-lux-border shadow-xl flex flex-col md:flex-row items-center justify-between">
+                        <div class="space-y-4 max-w-lg text-right">
+                            <span class="px-3 py-1 bg-gold-500/20 text-gold-400 text-xs font-bold rounded-full">أحدث إصدارات أورورا الفاخرة</span>
+                            <h1 class="text-3xl sm:text-4xl font-black">فخامة تسوق لا نظير لها</h1>
+                            <p class="text-gray-300 text-xs sm:text-sm">تصفح المنتجات المحدثة فوراً مع بحث فوري شامل ومزامنة تامة لطلباتك.</p>
+                        </div>
+                        <div class="mt-6 md:mt-0">
+                            <div class="w-28 h-28 sm:w-36 sm:h-36 rounded-full bg-gold-500/10 border border-gold-500/30 flex items-center justify-center text-gold-500 text-4xl sm:text-5xl">
+                                <i class="fa-solid fa-crown"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    ${state.searchQuery ? `
+                        <div class="flex items-center justify-between bg-gold-500/10 border border-gold-500/30 p-4 rounded-2xl">
+                            <span class="text-sm font-bold text-gold-500">${t('searchResultsFor')} "${state.searchQuery}"</span>
+                            <button onclick="state.searchQuery=''; renderApp();" class="text-xs text-gray-400 hover:text-gold-500">إلغاء البحث</button>
+                        </div>
+                    ` : ''}
+
+                    <!-- Categories Filter -->
+                    <div class="flex space-x-3 space-x-reverse overflow-x-auto pb-2">
+                        <button onclick="state.selectedCategory='all'; renderApp();" class="px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all whitespace-nowrap ${state.selectedCategory === 'all' ? 'bg-gold-500 text-lux-dark' : 'bg-white dark:bg-lux-card border border-gray-200 dark:border-lux-border'}">الكل</button>
+                        ${db.categories.map(c => `
+                            <button onclick="state.selectedCategory='${c.name}'; renderApp();" class="px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all ${state.selectedCategory === c.name ? 'bg-gold-500 text-lux-dark' : 'bg-white dark:bg-lux-card border border-gray-200 dark:border-lux-border'}">${c.name}</button>
+                        `).join('')}
+                    </div>
+
+                    <!-- Products Grid -->
+                    <div id="products-grid-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+                        ${renderProductsGridHTML(db)}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderStoreProductCard(product, db) {
+            const isWishlisted = db.wishlist.includes(product.id);
+            return `
+                <div class="bg-white dark:bg-lux-card border border-gray-200 dark:border-lux-border rounded-3xl overflow-hidden shadow-sm hover:border-gold-500 transition-all flex flex-col group">
+                    <div class="aspect-square bg-gray-100 dark:bg-lux-dark relative overflow-hidden">
+                        <img src="${product.images[0]}" onclick="state.selectedProductId='${product.id}'; state.currentRoute='product-detail'; renderApp();" class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500 cursor-pointer" onerror="this.src='https://placehold.co/600x600/161616/d9b66f?text=AURORA'">
+                        <button onclick="toggleWishlist('${product.id}')" class="absolute top-3 left-3 w-9 h-9 rounded-full bg-black/60 backdrop-blur flex items-center justify-center text-gray-200 hover:text-red-500 transition-colors">
+                            <i class="fa-${isWishlisted ? 'solid text-red-500' : 'regular'} fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="p-5 flex flex-col flex-grow">
+                        <span class="text-xs text-gold-500 font-bold mb-1">${product.category}</span>
+                        <h3 onclick="state.selectedProductId='${product.id}'; state.currentRoute='product-detail'; renderApp();" class="font-bold text-base mb-2 cursor-pointer hover:text-gold-500 line-clamp-1">${product.name}</h3>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mb-4 line-clamp-2">${product.shortDesc || product.description}</p>
+                        <div class="mt-auto flex items-center justify-between pt-4 border-t border-gray-100 dark:border-lux-border">
+                            <span class="text-lg font-black text-gold-500">${formatEGP(product.salePrice)}</span>
+                            <button onclick="addToCart('${product.id}')" ${product.stock <= 0 ? 'disabled' : ''} class="bg-gold-500 hover:bg-gold-600 disabled:bg-gray-400 text-lux-dark font-bold px-4 py-2.5 rounded-xl text-xs flex items-center space-x-2 space-x-reverse transition-all">
+                                <i class="fa-solid fa-cart-plus"></i>
+                                <span>${t('addToCart')}</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderProductDetailView(db) {
+            const product = db.products.find(p => p.id === state.selectedProductId);
+            if (!product) return `<div class="p-24 text-center">المنتج غير موجود</div>`;
+
+            return `
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
+                    <button onclick="state.currentRoute='store'; renderApp();" class="text-gold-500 text-sm font-bold flex items-center space-x-2 space-x-reverse"><i class="fa-solid fa-arrow-right"></i><span>${t('backToStore')}</span></button>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-white dark:bg-lux-card border border-gray-200 dark:border-lux-border rounded-3xl p-8 lg:p-12 shadow-xl">
+                        <div class="aspect-square rounded-3xl overflow-hidden bg-gray-100 dark:bg-lux-dark border border-gray-200 dark:border-lux-border">
+                            <img src="${product.images[0]}" class="object-cover w-full h-full" onerror="this.src='https://placehold.co/600x600/161616/d9b66f?text=AURORA'">
+                        </div>
+                        <div class="space-y-6">
+                            <span class="px-3 py-1 bg-gold-500/10 text-gold-500 text-xs font-bold rounded-full">${product.category}</span>
+                            <h1 class="text-3xl font-black">${product.name}</h1>
+                            <div class="text-3xl font-black text-gold-500">${formatEGP(product.salePrice)}</div>
+                            <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">${product.description}</p>
+                            <div class="font-bold text-sm ${product.stock > 0 ? 'text-emerald-500' : 'text-red-500'}">
+                                ${product.stock > 0 ? `${t('inStock')} (${product.stock})` : t('outOfStock')}
+                            </div>
+                            <button onclick="addToCart('${product.id}')" ${product.stock <= 0 ? 'disabled' : ''} class="w-full bg-gold-500 hover:bg-gold-600 disabled:bg-gray-400 text-lux-dark font-bold py-4 rounded-2xl shadow-xl transition-all">
+                                ${t('addToCart')}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderCartPageView(db) {
+            return `<div class="max-w-7xl mx-auto px-4 py-12">سلة الشراء</div>`;
+        }
+
+        function renderCheckoutView(db) {
+            const subtotal = db.cart.reduce((s, i) => s + (Number(i.price) * Number(i.qty)), 0);
+            const shipping = subtotal > 2000 ? 0 : 100;
+            const total = subtotal + shipping;
+            const user = db.session.user;
+
+            return `
+                <div class="max-w-3xl mx-auto px-4 py-12 space-y-8">
+                    <h1 class="text-3xl font-black">${t('checkoutTitle')}</h1>
+                    <form onsubmit="handleCustomerCheckout(event)" class="bg-white dark:bg-lux-card border border-gray-200 dark:border-lux-border rounded-3xl p-8 space-y-6 shadow-xl">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-bold mb-2">${t('fullName')} *</label>
+                                <input type="text" id="chk-name" required value="${user.name}" class="w-full bg-gray-50 dark:bg-lux-dark border border-gray-200 dark:border-lux-border rounded-2xl py-3 px-4 text-sm focus:outline-none focus:border-gold-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold mb-2">${t('phone')} *</label>
+                                <input type="tel" id="chk-phone" required value="${user.phone || '01012345678'}" class="w-full bg-gray-50 dark:bg-lux-dark border border-gray-200 dark:border-lux-border rounded-2xl py-3 px-4 text-sm focus:outline-none focus:border-gold-500">
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-bold mb-2">${t('deliveryAddress')} *</label>
+                                <input type="text" id="chk-address" required placeholder="القاهرة، المعادي، شارع النصر، مبنى 14" class="w-full bg-gray-50 dark:bg-lux-dark border border-gray-200 dark:border-lux-border rounded-2xl py-3 px-4 text-sm focus:outline-none focus:border-gold-500">
+                            </div>
+                        </div>
+
+                        <div class="border-t border-gray-200 dark:border-lux-border pt-4 space-y-2 text-sm">
+                            <div class="flex justify-between"><span>${t('subtotal')}:</span> <strong>${formatEGP(subtotal)}</strong></div>
+                            <div class="flex justify-between"><span>${t('shipping')}:</span> <strong>${shipping === 0 ? t('freeShipping') : formatEGP(shipping)}</strong></div>
+                            <div class="flex justify-between text-xl font-black text-gold-500 pt-2 border-t border-gray-200 dark:border-lux-border"><span>${t('total')}:</span> <span>${formatEGP(total)}</span></div>
+                        </div>
+
+                        <button type="submit" class="w-full bg-gold-500 hover:bg-gold-600 text-lux-dark font-bold py-4 rounded-2xl shadow-xl transition-all">
+                            ${t('confirmOrder')}
+                        </button>
+                    </form>
+                </div>
+            `;
+        }
+
+        /* ==========================================================================
+           6. FINANCIAL ORDER CALCULATIONS & SNAPSHOTS
+           ========================================================================== */
+        function handleCustomerCheckout(e) {
+            e.preventDefault();
+            const db = getDB();
+            if (db.cart.length === 0) return;
+
+            db.cart.forEach(item => {
+                const prod = db.products.find(p => p.id === item.productId);
+                if (prod) prod.stock = Math.max(0, prod.stock - item.qty);
+            });
+
+            const subtotal = db.cart.reduce((s, i) => s + (Number(i.price) * Number(i.qty)), 0);
+            const shipping = subtotal > 2000 ? 0 : 100;
+            const total = subtotal + shipping;
+
+            const orderedItemsSnapshot = db.cart.map(item => {
+                const prod = db.products.find(p => p.id === item.productId);
+                return {
+                    productId: item.productId,
+                    name: item.name,
+                    sku: prod ? prod.sku : 'AUR-SKU',
+                    price: Number(item.price),
+                    qty: Number(item.qty),
+                    image: item.image,
+                    variation: item.variation || 'قياسي'
+                };
+            });
+
+            const newOrder = {
+                id: 'ORD-' + Math.floor(1000 + Math.random() * 9000),
+                customerName: document.getElementById('chk-name').value,
+                email: db.session.user.email,
+                phone: document.getElementById('chk-phone').value,
+                address: document.getElementById('chk-address').value,
+                items: orderedItemsSnapshot,
+                subtotal: Number(subtotal),
+                shippingFee: Number(shipping),
+                total: Number(total),
+                paymentMethod: 'Cash on Delivery',
+                paymentStatus: 'Pending',
+                status: 'New Order',
+                date: new Date().toISOString()
+            };
+
+            db.orders.unshift(newOrder);
+            db.cart = [];
+
+            localStorage.setItem('aurora_products', JSON.stringify(db.products));
+            localStorage.setItem('aurora_orders', JSON.stringify(db.orders));
+            localStorage.setItem('aurora_cart', JSON.stringify([]));
+
+            state.orderSuccessData = newOrder;
+            state.selectedOrderId = newOrder.id;
+            state.currentRoute = 'order-success';
+            renderApp();
+            showToast('تم إرسال طلبك بنجاح وحفظ كافة تفاصيل المنتجات والأسعار!');
+        }
+
+        function renderOrderSuccessView(db) {
+            const ord = state.orderSuccessData || db.orders[0];
+            return `
+                <div class="max-w-2xl mx-auto px-4 py-24 text-center space-y-6">
+                    <div class="w-20 h-20 bg-emerald-500/20 text-emerald-500 rounded-full mx-auto flex items-center justify-center text-4xl"><i class="fa-solid fa-check"></i></div>
+                    <h1 class="text-3xl font-black">${t('orderSuccess')} ${ord.customerName}</h1>
+                    <p class="text-gray-500 dark:text-gray-400 text-sm">${t('orderNum')}: <strong class="text-gold-500">${ord.id}</strong></p>
+                    <div class="flex justify-center space-x-4 space-x-reverse">
+                        <button onclick="state.selectedOrderId='${ord.id}'; state.currentRoute='order-detail'; renderApp();" class="bg-lux-dark text-white border border-lux-border font-bold px-6 py-3.5 rounded-2xl shadow">عرض تفاصيل الطلب الكاملة</button>
+                        <button onclick="state.currentRoute='store'; renderApp();" class="bg-gold-500 text-lux-dark font-bold px-6 py-3.5 rounded-2xl shadow">${t('backToStore')}</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderCustomerOrdersView(db) {
+            const myEmail = db.session.user.email;
+            const myOrders = db.orders.filter(o => o.email === myEmail);
+
+            return `
+                <div class="max-w-7xl mx-auto px-4 py-12 space-y-8">
+                    <h1 class="text-3xl font-black">${t('myOrders')} (${myOrders.length})</h1>
+                    ${myOrders.length === 0 ? `<div class="text-center py-16 text-gray-400">ليس لديك أي طلبات سابقة.</div>` : `
+                        <div class="space-y-4">
+                            ${myOrders.map(o => `
+                                <div class="bg-white dark:bg-lux-card border border-gray-200 dark:border-lux-border rounded-3xl p-6 flex flex-col md:flex-row justify-between items-center gap-4 shadow-sm">
+                                    <div>
+                                        <strong class="text-gold-500 text-lg">${o.id}</strong>
+                                        <span class="block text-xs text-gray-500 dark:text-gray-400 mt-1">${t('currentStatus')}: <strong class="text-gold-500">${o.status}</strong></span>
+                                        <span class="block text-xs text-gray-400 mt-0.5">${new Date(o.date).toLocaleString('ar-EG')}</span>
+                                    </div>
+                                    <div class="flex items-center space-x-4 space-x-reverse">
+                                        <div class="text-left">
+                                            <span class="text-xl font-black text-gold-500">${formatEGP(o.total)}</span>
+                                            <span class="block text-xs text-gray-400">${o.items.length} منتجات</span>
+                                        </div>
+                                        <button onclick="state.selectedOrderId='${o.id}'; state.currentRoute='order-detail'; renderApp();" class="px-5 py-2.5 bg-gold-500/20 text-gold-500 border border-gold-500/40 rounded-xl text-xs font-bold hover:bg-gold-500 hover:text-lux-dark transition-all">
+                                            ${t('viewDetails')}
+                                        </button>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `}
+                </div>
+            `;
+        }
+
+        function renderCustomerOrderDetailView(db) {
+            const ord = db.orders.find(o => o.id === state.selectedOrderId);
+            if (!ord) return `<div class="p-24 text-center">الطلب غير موجود</div>`;
+
+            const subtotalNum = Number(ord.subtotal) || ord.items.reduce((s, i) => s + (Number(i.price) * Number(i.qty)), 0);
+            const shippingNum = Number(ord.shippingFee) || 0;
+            const totalNum = Number(ord.total) || (subtotalNum + shippingNum);
+
+            return `
+                <div class="max-w-4xl mx-auto px-4 py-12 space-y-8">
+                    <button onclick="state.currentRoute='my-orders'; renderApp();" class="text-gold-500 text-sm font-bold flex items-center space-x-2 space-x-reverse"><i class="fa-solid fa-arrow-right"></i><span>العودة لطلباتي</span></button>
+                    
+                    <div class="bg-white dark:bg-lux-card border border-gray-200 dark:border-lux-border rounded-3xl p-8 space-y-6 shadow-xl">
+                        <div class="flex justify-between items-center border-b border-gray-200 dark:border-lux-border pb-6">
+                            <div>
+                                <h1 class="text-2xl font-black text-gold-500">تفاصيل الطلب: ${ord.id}</h1>
+                                <span class="text-xs text-gray-400">تاريخ الطلب: ${new Date(ord.date).toLocaleString('ar-EG')}</span>
+                            </div>
+                            <span class="px-4 py-2 bg-gold-500/20 text-gold-500 font-bold rounded-2xl text-sm">الحالة: ${ord.status}</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+                            <div class="bg-gray-50 dark:bg-lux-dark p-4 rounded-2xl border border-gray-200 dark:border-lux-border space-y-2">
+                                <h4 class="font-bold text-gold-500">${t('customerInfo')}</h4>
+                                <p>الاسم: <strong>${ord.customerName}</strong></p>
+                                <p>الجوال: <strong>${ord.phone}</strong></p>
+                                <p>البريد: <strong>${ord.email}</strong></p>
+                            </div>
+                            <div class="bg-gray-50 dark:bg-lux-dark p-4 rounded-2xl border border-gray-200 dark:border-lux-border space-y-2">
+                                <h4 class="font-bold text-gold-500">${t('shippingInfo')}</h4>
+                                <p>${ord.address}</p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-4">
+                            <h3 class="font-bold text-base">${t('orderedProducts')} (${ord.items.length})</h3>
+                            <div class="space-y-3">
+                                ${ord.items.map(item => `
+                                    <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-lux-dark rounded-2xl border border-gray-200 dark:border-lux-border">
+                                        <div class="flex items-center space-x-4 space-x-reverse">
+                                            <img src="${item.image}" class="w-16 h-16 rounded-xl object-cover" onerror="this.src='https://placehold.co/200x200/161616/d9b66f?text=AURORA'">
+                                            <div>
+                                                <h4 class="font-bold text-sm">${item.name}</h4>
+                                                <span class="text-xs text-gray-400">SKU: ${item.sku} | المتغير: ${item.variation}</span>
+                                            </div>
+                                        </div>
+                                        <div class="text-left">
+                                            <span class="font-black text-gold-500">${formatEGP(item.price)} × ${item.qty}</span>
+                                            <span class="block text-xs text-gray-400">الإجمالي: ${formatEGP(Number(item.price) * Number(item.qty))}</span>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <div class="border-t border-gray-200 dark:border-lux-border pt-4 space-y-2 text-sm max-w-sm mr-auto">
+                            <div class="flex justify-between"><span>${t('subtotal')}:</span> <strong>${formatEGP(subtotalNum)}</strong></div>
+                            <div class="flex justify-between"><span>${t('shipping')}:</span> <strong>${shippingNum === 0 ? t('freeShipping') : formatEGP(shippingNum)}</strong></div>
+                            <div class="flex justify-between text-lg font-black text-gold-500 pt-2 border-t border-gray-200 dark:border-lux-border"><span>${t('total')}:</span> <span>${formatEGP(totalNum)}</span></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderCustomerFooter() {
+            return `
+                <footer class="bg-white dark:bg-lux-card border-t border-gray-200 dark:border-lux-border py-12 mt-auto text-center text-xs text-gray-500">
+                    جميع الحقوق محفوظة © 2026 متجر AURORA الفاخر.
+                </footer>
+            `;
+        }
+
+        /* ==========================================================================
+           7. CART & WISHLIST DRAWERS
+           ========================================================================== */
+        function toggleCartDrawer(open) {
+            state.cartDrawerOpen = open;
+            renderApp();
+        }
+
+        function toggleWishlistDrawer(open) {
+            state.wishlistDrawerOpen = open;
+            renderApp();
+        }
+
+        function addToCart(prodId) {
+            const db = getDB();
+            const product = db.products.find(p => p.id === prodId);
+            if (!product || product.stock <= 0) {
+                showToast('عذراً، المنتج غير متوفر', 'error');
+                return;
+            }
+            const existing = db.cart.find(i => i.productId === prodId);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                db.cart.push({ productId: product.id, name: product.name, price: product.salePrice, image: product.images[0], qty: 1, variation: 'قياسي' });
+            }
+            saveDB('cart', db.cart);
+            showToast('تمت الإضافة إلى سلة الشراء');
+            toggleCartDrawer(true);
+        }
+
+        function toggleWishlist(prodId) {
+            const db = getDB();
+            const idx = db.wishlist.indexOf(prodId);
+            if (idx > -1) {
+                db.wishlist.splice(idx, 1);
+                showToast('تمت الإزالة من المفضلة');
+            } else {
+                db.wishlist.push(prodId);
+                showToast('تمت الإضافة للمفضلة');
+            }
+            saveDB('wishlist', db.wishlist);
+        }
+
+        function renderCartDrawer(db) {
+            if (!state.cartDrawerOpen) return '';
+            const subtotal = db.cart.reduce((s, i) => s + (Number(i.price) * Number(i.qty)), 0);
+            return `
+                <div class="fixed inset-0 z-50 overflow-hidden">
+                    <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="toggleCartDrawer(false)"></div>
+                    <div class="absolute inset-y-0 left-0 max-w-md w-full bg-white dark:bg-lux-card shadow-2xl flex flex-col border-r border-gray-200 dark:border-lux-border">
+                        <div class="p-6 border-b border-gray-200 dark:border-lux-border flex justify-between items-center">
+                            <h2 class="text-xl font-black">${t('cartTitle')} (${db.cart.reduce((s, i) => s + i.qty, 0)})</h2>
+                            <button onclick="toggleCartDrawer(false)"><i class="fa-solid fa-xmark text-xl"></i></button>
+                        </div>
+                        <div class="flex-grow overflow-y-auto p-6 space-y-4">
+                            ${db.cart.length === 0 ? `
+                                <div class="text-center py-20 space-y-4">
+                                    <div class="w-16 h-16 bg-gold-500/10 text-gold-500 rounded-full flex items-center justify-center mx-auto text-2xl">
+                                        <i class="fa-solid fa-bag-shopping"></i>
+                                    </div>
+                                    <h3 class="font-bold text-lg">${state.lang === 'ar' ? 'سلة الشراء فارغة' : 'Your cart is empty'}</h3>
+                                    <p class="text-xs text-gray-400">${state.lang === 'ar' ? 'لم تقم بإضافة أي منتجات للسلة بعد.' : 'You have not added any products yet.'}</p>
+                                    <button onclick="toggleCartDrawer(false); state.currentRoute='store'; renderApp();" class="px-6 py-2.5 bg-gold-500 text-lux-dark font-bold rounded-xl text-xs shadow">
+                                        ${state.lang === 'ar' ? 'العودة للتسوق' : 'Return to Shop'}
+                                    </button>
+                                </div>
+                            ` : db.cart.map(i => `
+                                <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-lux-dark rounded-2xl border border-gray-200 dark:border-lux-border">
+                                    <div class="flex items-center space-x-4 space-x-reverse">
+                                        <img src="${i.image}" class="w-16 h-16 rounded-xl object-cover" onerror="this.src='https://placehold.co/200x200/161616/d9b66f?text=AURORA'">
+                                        <div>
+                                            <h4 class="font-bold text-sm line-clamp-1">${i.name}</h4>
+                                            <span class="text-gold-500 font-bold">${formatEGP(i.price)} × ${i.qty}</span>
+                                        </div>
+                                    </div>
+                                    <button onclick="removeFromCart('${i.productId}')" class="p-2.5 rounded-xl bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-colors" title="${state.lang === 'ar' ? 'حذف من السلة' : 'Remove from cart'}">
+                                        <i class="fa-solid fa-trash-can text-sm"></i>
+                                    </button>
+                                </div>
+                            `).join('')}
+                        </div>
+                        ${db.cart.length > 0 ? `
+                            <div class="p-6 border-t border-gray-200 dark:border-lux-border bg-gray-50 dark:bg-lux-dark space-y-4">
+                                <div class="flex justify-between text-lg font-black text-gold-500">
+                                    <span>${t('subtotal')}:</span>
+                                    <span>${formatEGP(subtotal)}</span>
+                                </div>
+                                <button onclick="toggleCartDrawer(false); state.currentRoute='checkout'; renderApp();" class="w-full bg-gold-500 hover:bg-gold-600 text-lux-dark font-bold py-3.5 rounded-2xl shadow">
+                                    متابعة إتمام الطلب
+                                </button>
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        function removeFromCart(prodId) {
+            const db = getDB();
+            db.cart = db.cart.filter(i => i.productId !== prodId);
+            saveDB('cart', db.cart);
+            showToast(state.lang === 'ar' ? 'تم حذف المنتج من السلة' : 'Product removed from cart');
+        }
+
+        function renderWishlistDrawer(db) {
+            if (!state.wishlistDrawerOpen) return '';
+            const wishProds = db.products.filter(p => db.wishlist.includes(p.id));
+            return `
+                <div class="fixed inset-0 z-50 overflow-hidden">
+                    <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="toggleWishlistDrawer(false)"></div>
+                    <div class="absolute inset-y-0 left-0 max-w-md w-full bg-white dark:bg-lux-card shadow-2xl flex flex-col border-r border-gray-200 dark:border-lux-border">
+                        <div class="p-6 border-b border-gray-200 dark:border-lux-border flex justify-between items-center">
+                            <h2 class="text-xl font-black">${t('wishlistTitle')} (${wishProds.length})</h2>
+                            <button onclick="toggleWishlistDrawer(false)"><i class="fa-solid fa-xmark text-xl"></i></button>
+                        </div>
+                        <div class="flex-grow overflow-y-auto p-6 space-y-4">
+                            ${wishProds.map(p => `
+                                <div class="flex items-center space-x-4 space-x-reverse bg-gray-50 dark:bg-lux-dark p-4 rounded-2xl border border-gray-200 dark:border-lux-border">
+                                    <img src="${p.images[0]}" class="w-16 h-16 rounded-xl object-cover" onerror="this.src='https://placehold.co/200x200/161616/d9b66f?text=AURORA'">
+                                    <div class="flex-grow">
+                                        <h4 class="font-bold text-sm">${p.name}</h4>
+                                        <span class="text-gold-500 font-bold">${formatEGP(p.salePrice)}</span>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        /* ==========================================================================
+           8. ADMINISTRATOR MANAGEMENT PANEL & ROBUST IMAGE UPLOAD
+           ========================================================================== */
+        function renderAdminHeader(db) {
+            const admin = db.session.user;
+            return `
+                <header class="sticky top-0 z-40 bg-white dark:bg-lux-card border-b border-gray-200 dark:border-lux-border">
+                    <div class="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
+                        <div class="flex items-center space-x-3 space-x-reverse">
+                            <div class="w-10 h-10 rounded-full bg-gold-500 flex items-center justify-center text-lux-dark font-black">
+                                <i class="fa-solid fa-gauge-high"></i>
+                            </div>
+                            <span class="text-lg sm:text-xl font-black text-gold-500">${t('adminDashboard')}</span>
+                        </div>
+                        <div class="flex items-center space-x-4 space-x-reverse">
+                            <button onclick="toggleTheme()" class="p-2 text-gray-600 dark:text-gray-300 hover:text-gold-500"><i class="fa-solid fa-${state.theme==='dark'?'sun':'moon'}"></i></button>
+                            <button onclick="toggleLanguage()" class="px-3 py-1.5 rounded-xl bg-gray-100 dark:bg-lux-dark text-xs font-bold text-gold-500">${state.lang==='ar'?'English':'العربية'}</button>
+                            <span class="hidden sm:inline text-sm font-semibold">${admin.email}</span>
+                            <button onclick="logoutAdmin()" class="bg-red-500/20 text-red-500 border border-red-500/40 hover:bg-red-500 hover:text-white font-bold px-4 py-2 rounded-xl text-xs transition-colors">
+                                ${t('logout')}
+                            </button>
+                        </div>
+                    </div>
+                </header>
+            `;
+        }
+
+        function renderAdminDashboardView(db) {
+            const totalRev = db.orders.reduce((s, o) => s + (Number(o.total) || 0), 0);
+            return `
+                <div class="max-w-7xl mx-auto px-4 py-12 space-y-8">
+                    <div class="flex flex-wrap gap-3 bg-white dark:bg-lux-card border border-gray-200 dark:border-lux-border p-6 rounded-3xl shadow-sm">
+                        <button onclick="state.adminTab='overview'; renderApp();" class="px-5 py-2.5 rounded-2xl font-bold text-xs sm:text-sm ${state.adminTab==='overview'?'bg-gold-500 text-lux-dark':'bg-gray-100 dark:bg-lux-dark'}">${t('overview')}</button>
+                        <button onclick="state.adminTab='products'; renderApp();" class="px-5 py-2.5 rounded-2xl font-bold text-xs sm:text-sm ${state.adminTab==='products'?'bg-gold-500 text-lux-dark':'bg-gray-100 dark:bg-lux-dark'}">${t('productsMgmt')} (${db.products.length})</button>
+                        <button onclick="state.editingProduct=null; state.adminTab='add-product'; renderApp();" class="px-5 py-2.5 rounded-2xl font-bold text-xs sm:text-sm bg-gold-500/20 text-gold-500 border border-gold-500/40"><i class="fa-solid fa-plus ml-1"></i> ${t('addProduct')}</button>
+                        <button onclick="state.adminTab='orders'; renderApp();" class="px-5 py-2.5 rounded-2xl font-bold text-xs sm:text-sm ${state.adminTab==='orders'?'bg-gold-500 text-lux-dark':'bg-gray-100 dark:bg-lux-dark'}">${t('ordersMgmt')} (${db.orders.length})</button>
+                    </div>
+
+                    ${state.adminTab === 'overview' ? `
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="bg-white dark:bg-lux-card border border-gray-200 dark:border-lux-border p-8 rounded-3xl space-y-2 shadow-sm">
+                                <span class="text-gray-400 text-xs">${t('totalSales')}</span>
+                                <div class="text-3xl font-black text-gold-500">${formatEGP(totalRev)}</div>
+                            </div>
+                            <div class="bg-white dark:bg-lux-card border border-gray-200 dark:border-lux-border p-8 rounded-3xl space-y-2 shadow-sm">
+                                <span class="text-gray-400 text-xs">${t('totalOrders')}</span>
+                                <div class="text-3xl font-black">${db.orders.length}</div>
+                            </div>
+                            <div class="bg-white dark:bg-lux-card border border-gray-200 dark:border-lux-border p-8 rounded-3xl space-y-2 shadow-sm">
+                                <span class="text-gray-400 text-xs">${t('activeProducts')}</span>
+                                <div class="text-3xl font-black text-emerald-500">${db.products.length}</div>
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    ${state.adminTab === 'products' ? `
+                        <div class="bg-white dark:bg-lux-card border border-gray-200 dark:border-lux-border p-8 rounded-3xl space-y-6 shadow-sm overflow-x-auto">
+                            <h3 class="text-xl font-bold">${t('productsMgmt')}</h3>
+                            <div class="space-y-4 min-w-[600px]">
+                                ${db.products.map(p => `
+                                    <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-lux-dark rounded-2xl border border-gray-200 dark:border-lux-border">
+                                        <div class="flex items-center space-x-4 space-x-reverse">
+                                            <img src="${p.images[0]}" class="w-12 h-12 rounded-xl object-cover" onerror="this.src='https://placehold.co/200x200/161616/d9b66f?text=AURORA'">
+                                            <div>
+                                                <strong class="block">${p.name}</strong>
+                                                <span class="text-xs text-gold-500">${formatEGP(p.salePrice)} | المخزون: ${p.stock}</span>
+                                            </div>
+                                        </div>
+                                        <div class="space-x-2 space-x-reverse">
+                                            <button onclick="editAdminProduct('${p.id}')" class="px-4 py-2 bg-gold-500/20 text-gold-500 rounded-xl text-xs font-bold">${t('edit')}</button>
+                                            <button onclick="deleteAdminProduct('${p.id}')" class="px-4 py-2 bg-red-500/20 text-red-500 rounded-xl text-xs font-bold">${t('delete')}</button>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    ${state.adminTab === 'add-product' ? renderAdminProductForm(db) : ''}
+
+                    ${state.adminTab === 'orders' ? `
+                        <div class="bg-white dark:bg-lux-card border border-gray-200 dark:border-lux-border p-8 rounded-3xl space-y-6 shadow-sm">
+                            <h3 class="text-xl font-bold">${t('ordersMgmt')}</h3>
+                            <div class="space-y-4">
+                                ${db.orders.map(o => `
+                                    <div class="p-6 bg-gray-50 dark:bg-lux-dark rounded-3xl border border-gray-200 dark:border-lux-border space-y-4">
+                                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                                            <div>
+                                                <strong class="text-gold-500 text-lg">${o.id}</strong> - العميل: ${o.customerName} (${o.phone})
+                                                <span class="block text-xs text-gray-500 mt-1">العنوان: ${o.address}</span>
+                                                <span class="block text-xs text-gold-400 mt-1">${o.items.length} منتجات مطلوبة</span>
+                                            </div>
+                                            <div class="flex items-center space-x-4 space-x-reverse">
+                                                <div class="text-left">
+                                                    <span class="text-xl font-black text-gold-500">${formatEGP(o.total)}</span>
+                                                </div>
+                                                <button onclick="state.selectedOrderId='${o.id}'; state.currentRoute='admin/order-detail'; renderApp();" class="px-5 py-2.5 bg-gold-500 text-lux-dark rounded-xl text-xs font-bold shadow">
+                                                    ${t('viewDetails')}
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="flex justify-between items-center pt-4 border-t border-gray-200 dark:border-lux-border">
+                                            <span class="text-xs text-gray-400">تحديث حالة الطلب:</span>
+                                            <select onchange="updateAdminOrderStatus('${o.id}', this.value)" class="bg-white dark:bg-lux-card border border-gray-200 dark:border-lux-border px-4 py-2 rounded-xl text-xs font-bold text-gold-500">
+                                                <option ${o.status==='New Order'?'selected':''}>New Order</option>
+                                                <option ${o.status==='Confirmed'?'selected':''}>Confirmed</option>
+                                                <option ${o.status==='Processing'?'selected':''}>Processing</option>
+                                                <option ${o.status==='Shipped'?'selected':''}>Shipped</option>
+                                                <option ${o.status==='Delivered'?'selected':''}>Delivered</option>
+                                                <option ${o.status==='Cancelled'?'selected':''}>Cancelled</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        }
+
+        function renderAdminOrderDetailView(db) {
+            const ord = db.orders.find(o => o.id === state.selectedOrderId);
+            if (!ord) return `<div class="p-24 text-center">الطلب غير موجود</div>`;
+
+            const subtotalNum = Number(ord.subtotal) || ord.items.reduce((s, i) => s + (Number(i.price) * Number(i.qty)), 0);
+            const shippingNum = Number(ord.shippingFee) || 0;
+            const totalNum = Number(ord.total) || (subtotalNum + shippingNum);
+
+            return `
+                <div class="max-w-4xl mx-auto px-4 py-12 space-y-8">
+                    <button onclick="state.adminTab='orders'; state.currentRoute='admin/dashboard'; renderApp();" class="text-gold-500 text-sm font-bold flex items-center space-x-2 space-x-reverse"><i class="fa-solid fa-arrow-right"></i><span>العودة لإدارة الطلبات</span></button>
+                    
+                    <div class="bg-white dark:bg-lux-card border border-gray-200 dark:border-lux-border rounded-3xl p-8 space-y-6 shadow-xl">
+                        <div class="flex justify-between items-center border-b border-gray-200 dark:border-lux-border pb-6">
+                            <div>
+                                <h1 class="text-2xl font-black text-gold-500">تفاصيل الطلب (لوحة الإدارة): ${ord.id}</h1>
+                                <span class="text-xs text-gray-400">تاريخ الطلب: ${new Date(ord.date).toLocaleString('ar-EG')}</span>
+                            </div>
+                            <span class="px-4 py-2 bg-gold-500/20 text-gold-500 font-bold rounded-2xl text-sm">الحالة: ${ord.status}</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+                            <div class="bg-gray-50 dark:bg-lux-dark p-4 rounded-2xl border border-gray-200 dark:border-lux-border space-y-2">
+                                <h4 class="font-bold text-gold-500">${t('customerInfo')}</h4>
+                                <p>الاسم: <strong>${ord.customerName}</strong></p>
+                                <p>الجوال: <strong>${ord.phone}</strong></p>
+                                <p>البريد: <strong>${ord.email}</strong></p>
+                            </div>
+                            <div class="bg-gray-50 dark:bg-lux-dark p-4 rounded-2xl border border-gray-200 dark:border-lux-border space-y-2">
+                                <h4 class="font-bold text-gold-500">${t('shippingInfo')}</h4>
+                                <p>العنوان: ${ord.address}</p>
+                                <p>طريقة الدفع: <strong>${ord.paymentMethod}</strong></p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-4">
+                            <h3 class="font-bold text-base">${t('orderedProducts')} (${ord.items.length})</h3>
+                            <div class="space-y-3">
+                                ${ord.items.map(item => `
+                                    <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-lux-dark rounded-2xl border border-gray-200 dark:border-lux-border">
+                                        <div class="flex items-center space-x-4 space-x-reverse">
+                                            <img src="${item.image}" class="w-16 h-16 rounded-xl object-cover" onerror="this.src='https://placehold.co/200x200/161616/d9b66f?text=AURORA'">
+                                            <div>
+                                                <h4 class="font-bold text-sm">${item.name}</h4>
+                                                <span class="text-xs text-gray-400">SKU: ${item.sku} | المتغير: ${item.variation}</span>
+                                            </div>
+                                        </div>
+                                        <div class="text-left">
+                                            <span class="font-black text-gold-500">${formatEGP(item.price)} × ${item.qty}</span>
+                                            <span class="block text-xs text-gray-400">الإجمالي: ${formatEGP(Number(item.price) * Number(item.qty))}</span>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <div class="border-t border-gray-200 dark:border-lux-border pt-4 space-y-2 text-sm max-w-sm mr-auto">
+                            <div class="flex justify-between"><span>${t('subtotal')}:</span> <strong>${formatEGP(subtotalNum)}</strong></div>
+                            <div class="flex justify-between"><span>${t('shipping')}:</span> <strong>${shippingNum === 0 ? t('freeShipping') : formatEGP(shippingNum)}</strong></div>
+                            <div class="flex justify-between text-lg font-black text-gold-500 pt-2 border-t border-gray-200 dark:border-lux-border"><span>${t('total')}:</span> <span>${formatEGP(totalNum)}</span></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderAdminProductForm(db) {
+            const p = state.editingProduct || {
+                id: 'prod-' + Date.now(),
+                name: '',
+                sku: 'AUR-' + Math.floor(1000 + Math.random()*9000),
+                category: 'ساعات فاخرة',
+                brand: 'AURORA Haute Horlogerie',
+                regularPrice: 5000,
+                salePrice: 4500,
+                stock: 10,
+                status: 'Published',
+                shortDesc: '',
+                description: '',
+                images: ['https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80']
+            };
+
+            return `
+                <div class="bg-white dark:bg-lux-card border border-gray-200 dark:border-lux-border p-8 rounded-3xl space-y-6 shadow-xl">
+                    <h3 class="text-xl font-black text-gold-500">${state.editingProduct ? 'تعديل منتج' : 'إضافة منتج جديد'}</h3>
+                    <form onsubmit="handleAdminSaveProduct(event, '${p.id}')" class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-bold mb-2">اسم المنتج *</label>
+                                <input type="text" id="adm-p-name" required value="${p.name}" class="w-full bg-gray-50 dark:bg-lux-dark border border-gray-200 dark:border-lux-border rounded-2xl py-3 px-4 text-sm focus:outline-none focus:border-gold-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold mb-2">SKU *</label>
+                                <input type="text" id="adm-p-sku" required value="${p.sku}" class="w-full bg-gray-50 dark:bg-lux-dark border border-gray-200 dark:border-lux-border rounded-2xl py-3 px-4 text-sm focus:outline-none focus:border-gold-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold mb-2">السعر العادي *</label>
+                                <input type="number" id="adm-p-reg" required value="${p.regularPrice}" class="w-full bg-gray-50 dark:bg-lux-dark border border-gray-200 dark:border-lux-border rounded-2xl py-3 px-4 text-sm focus:outline-none focus:border-gold-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold mb-2">سعر البيع *</label>
+                                <input type="number" id="adm-p-sale" required value="${p.salePrice}" class="w-full bg-gray-50 dark:bg-lux-dark border border-gray-200 dark:border-lux-border rounded-2xl py-3 px-4 text-sm focus:outline-none focus:border-gold-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold mb-2">المخزون *</label>
+                                <input type="number" id="adm-p-stock" required value="${p.stock}" class="w-full bg-gray-50 dark:bg-lux-dark border border-gray-200 dark:border-lux-border rounded-2xl py-3 px-4 text-sm focus:outline-none focus:border-gold-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold mb-2">رفع أو إدخال صور المنتج *</label>
+                                <div class="flex items-center space-x-3 space-x-reverse">
+                                    <input type="file" id="adm-image-file" accept="image/*" multiple onchange="handleImageUpload(event)" class="block w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-gold-500 file:text-lux-dark hover:file:bg-gold-600 cursor-pointer">
+                                </div>
+                                <input type="text" id="adm-p-img" required value="${p.images[0]}" placeholder="أو أدخل رابط الصورة مباشرة" class="w-full mt-2 bg-gray-50 dark:bg-lux-dark border border-gray-200 dark:border-lux-border rounded-2xl py-2 px-3 text-xs focus:outline-none focus:border-gold-500">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold mb-2">الوصف *</label>
+                            <textarea id="adm-p-desc" required rows="3" class="w-full bg-gray-50 dark:bg-lux-dark border border-gray-200 dark:border-lux-border rounded-2xl py-3 px-4 text-sm focus:outline-none focus:border-gold-500">${p.description || ''}</textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-gold-500 hover:bg-gold-600 text-lux-dark font-bold py-4 rounded-2xl shadow-xl transition-all">${t('savePublish')}</button>
+                    </form>
+                </div>
+            `;
+        }
+
+        function handleImageUpload(e) {
+            const files = e.target.files;
+            if (!files || files.length === 0) return;
+            const reader = new FileReader();
+            reader.onload = function(uploadEvent) {
+                const base64Url = uploadEvent.target.result;
+                document.getElementById('adm-p-img').value = base64Url;
+                showToast('تم رفع ومعاينة الصورة بنجاح');
+            };
+            reader.readAsDataURL(files[0]);
+        }
+
+        function handleAdminSaveProduct(e, prodId) {
+            e.preventDefault();
+            const db = getDB();
+            const updated = {
+                id: prodId,
+                name: document.getElementById('adm-p-name').value,
+                sku: document.getElementById('adm-p-sku').value,
+                category: 'ساعات فاخرة',
+                brand: 'AURORA',
+                regularPrice: Number(document.getElementById('adm-p-reg').value),
+                salePrice: Number(document.getElementById('adm-p-sale').value),
+                stock: Number(document.getElementById('adm-p-stock').value),
+                status: 'Published',
+                shortDesc: 'وصف مختصر للمنتج الفاخر',
+                description: document.getElementById('adm-p-desc').value,
+                images: [document.getElementById('adm-p-img').value],
+                rating: 5.0,
+                reviewCount: 1
+            };
+
+            const idx = db.products.findIndex(p => p.id === prodId);
+            if (idx > -1) {
+                db.products[idx] = updated;
+            } else {
+                db.products.unshift(updated);
+            }
+
+            saveDB('products', db.products);
+            state.adminTab = 'products';
+            state.editingProduct = null;
+            renderApp();
+            showToast('تم حفظ المنتج وتحديث واجهة العملاء وبحث المتجر فوراً');
+        }
+
+        function editAdminProduct(prodId) {
+            const db = getDB();
+            state.editingProduct = db.products.find(p => p.id === prodId);
+            state.adminTab = 'add-product';
+            renderApp();
+        }
+
+        function deleteAdminProduct(prodId) {
+            if (!confirm('حذف المنتج نهائياً؟')) return;
+            const db = getDB();
+            db.products = db.products.filter(p => p.id !== prodId);
+            saveDB('products', db.products);
+            showToast('تم الحذف بنجاح');
+        }
+
+        function updateAdminOrderStatus(ordId, newStatus) {
+            const db = getDB();
+            const ord = db.orders.find(o => o.id === ordId);
+            if (ord) {
+                ord.status = newStatus;
+                saveDB('orders', db.orders);
+                showToast(`تم تحديث حالة الطلب إلى (${newStatus})`);
+            }
+        }
+
+        // Initialize on Load
+        window.onload = function() {
+            const db = getDB();
+            if (!db.session.type) {
+                state.currentRoute = 'login';
+            } else if (db.session.type === 'admin') {
+                state.currentRoute = 'admin/dashboard';
+            } else {
+                state.currentRoute = 'store';
+            }
+            renderApp();
+        };
+    </script>
+</body>
+</html>
