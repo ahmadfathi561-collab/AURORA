@@ -61,145 +61,10 @@
     <!-- Toast Notification Container -->
     <div id="toast-container" class="fixed bottom-6 left-6 z-50 flex flex-col space-y-3 pointer-events-none"></div>
 
-    <!-- Main JavaScript Application Logic with Full Fixes -->
+    <!-- Main JavaScript Application Logic (Language Switcher Removed) -->
     <script>
         /* ==========================================================================
-           1. COMPREHENSIVE LOCALIZATION (ARABIC / ENGLISH)
-           ========================================================================== */
-        const TRANSLATIONS = {
-            ar: {
-                storeName: 'AURORA',
-                storeSubtitle: 'متجر فاخر متكامل',
-                loginTitle: 'تسجيل دخول العملاء',
-                loginSubtitle: 'مرحباً بك في متجر AURORA الفاخر',
-                emailLabel: 'البريد الإلكتروني',
-                passwordLabel: 'كلمة المرور',
-                loginBtn: 'تسجيل الدخول للتسوق',
-                adminPortalLink: 'الدخول إلى لوحة تحكم المدير',
-                adminLoginTitle: 'بوابة إدارة المتجر',
-                adminLoginSubtitle: 'تسجيل دخول المدير المعتمد فقط',
-                adminLoginBtn: 'الدخول إلى لوحة التحكم',
-                backToStore: 'العودة إلى واجهة متجر العملاء',
-                searchPlaceholder: 'ابحث عن الساعات، الحقائب، العطور، أو الماركات...',
-                searchResultsFor: 'نتائج البحث عن:',
-                noSearchResults: 'عذراً، لم نجد أي منتجات تطابق بحثك.',
-                addToCart: 'إضافة للسلة',
-                outOfStock: 'نفذت الكمية',
-                inStock: 'متوفر في المخزون',
-                cartTitle: 'سلة الشراء',
-                wishlistTitle: 'قائمة المفضلة',
-                checkoutTitle: 'إتمام الطلب في متجر أورورا',
-                fullName: 'الاسم الكامل',
-                phone: 'رقم الجوال',
-                deliveryAddress: 'عنوان التوصيل بالتفصيل (المحافظة، المدينة، الشارع، المبنى)',
-                subtotal: 'المجموع الفرعي',
-                shipping: 'مصاريف الشحن',
-                freeShipping: 'مجاناً',
-                total: 'الإجمالي النهائي',
-                confirmOrder: 'تأكيد الطلب (الدفع كاش عند الاستلام)',
-                orderSuccess: 'شكراً لطلبك!',
-                orderNum: 'رقم الطلب',
-                myOrders: 'طلباتي السابقة',
-                adminDashboard: 'لوحة تحكم المدير المركزي',
-                overview: 'نظرة عامة والماليات',
-                productsMgmt: 'إدارة المنتجات',
-                addProduct: 'إضافة منتج',
-                ordersMgmt: 'إدارة الطلبات',
-                totalSales: 'إجمالي المبيعات',
-                totalOrders: 'إجمالي الطلبات',
-                activeProducts: 'المنتجات النشطة',
-                savePublish: 'حفظ ونشر في المتجر فوراً',
-                logout: 'تسجيل الخروج',
-                viewDetails: 'عرض تفاصيل الطلب الكاملة',
-                currentStatus: 'الحالة الحالية',
-                productName: 'اسم المنتج',
-                sku: 'SKU',
-                regularPrice: 'السعر العادي',
-                salePrice: 'سعر البيع',
-                stock: 'المخزون',
-                actions: 'الإجراءات',
-                edit: 'تعديل',
-                delete: 'حذف',
-                uploadImages: 'رفع صور المنتج من الجهاز (JPG, PNG, WEBP)',
-                browseFiles: 'تصفح الملفات',
-                customerInfo: 'معلومات العميل',
-                shippingInfo: 'معلومات الشحن والدفع',
-                orderedProducts: 'المنتجات المطلوبة',
-                quantity: 'الكمية',
-                unitPrice: 'سعر الوحدة',
-                itemTotal: 'الإجمالي'
-            },
-            en: {
-                storeName: 'AURORA',
-                storeSubtitle: 'Luxury E-Commerce Store',
-                loginTitle: 'Customer Login',
-                loginSubtitle: 'Welcome to AURORA Luxury Store',
-                emailLabel: 'Email Address',
-                passwordLabel: 'Password',
-                loginBtn: 'Login to Store',
-                adminPortalLink: 'Access Administrator Dashboard',
-                adminLoginTitle: 'Store Administration Portal',
-                adminLoginSubtitle: 'Authorized Administrator Access Only',
-                adminLoginBtn: 'Login to Dashboard',
-                backToStore: 'Back to Customer Store',
-                searchPlaceholder: 'Search watches, bags, fragrances, brands...',
-                searchResultsFor: 'Search results for:',
-                noSearchResults: 'Sorry, no products match your search.',
-                addToCart: 'Add to Cart',
-                outOfStock: 'Out of Stock',
-                inStock: 'In Stock',
-                cartTitle: 'Shopping Cart',
-                wishlistTitle: 'Wishlist',
-                checkoutTitle: 'AURORA Checkout',
-                fullName: 'Full Name',
-                phone: 'Phone Number',
-                deliveryAddress: 'Detailed Address (Governorate, City, Street, Building)',
-                subtotal: 'Subtotal',
-                shipping: 'Shipping Fee',
-                freeShipping: 'Free',
-                total: 'Final Total',
-                confirmOrder: 'Confirm Order (Cash on Delivery)',
-                orderSuccess: 'Thank you for your order!',
-                orderNum: 'Order Number',
-                myOrders: 'My Orders',
-                adminDashboard: 'Central Administrator Dashboard',
-                overview: 'Overview & Finances',
-                productsMgmt: 'Product Management',
-                addProduct: 'Add Product',
-                ordersMgmt: 'Order Management',
-                totalSales: 'Total Sales',
-                totalOrders: 'Total Orders',
-                activeProducts: 'Active Products',
-                savePublish: 'Save & Publish Immediately',
-                logout: 'Logout',
-                viewDetails: 'View Order Details',
-                currentStatus: 'Current Status',
-                productName: 'Product Name',
-                sku: 'SKU',
-                regularPrice: 'Regular Price',
-                salePrice: 'Sale Price',
-                stock: 'Stock',
-                actions: 'Actions',
-                edit: 'Edit',
-                delete: 'Delete',
-                uploadImages: 'Upload Product Images (JPG, PNG, WEBP)',
-                browseFiles: 'Browse Files',
-                customerInfo: 'Customer Information',
-                shippingInfo: 'Shipping & Payment Info',
-                orderedProducts: 'Ordered Products',
-                quantity: 'Quantity',
-                unitPrice: 'Unit Price',
-                itemTotal: 'Total'
-            }
-        };
-
-        function t(key) {
-            const lang = state.lang || 'ar';
-            return TRANSLATIONS[lang][key] || TRANSLATIONS['ar'][key] || key;
-        }
-
-        /* ==========================================================================
-           2. DATABASE INITIALIZATION & STATE SETUP
+           1. DATABASE INITIALIZATION & STATE SETUP
            ========================================================================== */
         const DEFAULT_CATEGORIES = [
             { id: 'cat-1', name: 'ساعات فاخرة', slug: 'luxury-watches', icon: 'fa-clock' },
@@ -276,7 +141,6 @@
             if (!localStorage.getItem('aurora_current_session')) {
                 localStorage.setItem('aurora_current_session', JSON.stringify({ type: null, user: null }));
             }
-            if (!localStorage.getItem('aurora_lang')) localStorage.setItem('aurora_lang', 'ar');
             if (!localStorage.getItem('aurora_theme')) localStorage.setItem('aurora_theme', 'dark');
 
             return {
@@ -308,14 +172,13 @@
             adminTab: 'overview',
             editingProduct: null,
             orderSuccessData: null,
-            lang: localStorage.getItem('aurora_lang') || 'ar',
             theme: localStorage.getItem('aurora_theme') || 'dark',
             mobileMenuOpen: false
         };
 
         function formatEGP(amount) {
             const num = Number(amount) || 0;
-            return new Intl.NumberFormat(state.lang === 'ar' ? 'ar-EG' : 'en-US', { style: 'currency', currency: 'EGP', maximumFractionDigits: 0 }).format(num).replace('ج.م.‏', 'ج.م');
+            return new Intl.NumberFormat('ar-EG', { style: 'currency', currency: 'EGP', maximumFractionDigits: 0 }).format(num).replace('ج.م.‏', 'ج.م');
         }
 
         function showToast(message, type = 'success') {
@@ -337,12 +200,6 @@
             }, 3500);
         }
 
-        function toggleLanguage() {
-            state.lang = state.lang === 'ar' ? 'en' : 'ar';
-            localStorage.setItem('aurora_lang', state.lang);
-            renderApp();
-        }
-
         function toggleTheme() {
             state.theme = state.theme === 'dark' ? 'light' : 'dark';
             localStorage.setItem('aurora_theme', state.theme);
@@ -350,15 +207,15 @@
         }
 
         /* ==========================================================================
-           3. ROUTING & ACCESS CONTROLLER
+           2. ROUTING & ACCESS CONTROLLER
            ========================================================================== */
         function renderApp() {
             const db = getDB();
             const root = document.getElementById('app');
             const session = db.session;
 
-            document.documentElement.setAttribute('dir', state.lang === 'ar' ? 'rtl' : 'ltr');
-            document.documentElement.setAttribute('lang', state.lang);
+            document.documentElement.setAttribute('dir', 'rtl');
+            document.documentElement.setAttribute('lang', 'ar');
             if (state.theme === 'dark') {
                 document.documentElement.classList.add('dark');
             } else {
@@ -412,41 +269,40 @@
         }
 
         /* ==========================================================================
-           4. AUTHENTICATION VIEWS
+           3. AUTHENTICATION VIEWS
            ========================================================================== */
         function renderCustomerLoginView() {
             return `
                 <div class="min-h-screen flex items-center justify-center px-4 py-12 bg-lux-light dark:bg-lux-dark">
                     <div class="max-w-md w-full bg-white dark:bg-lux-card border border-gray-200 dark:border-lux-border rounded-3xl p-8 lg:p-10 shadow-2xl space-y-8">
-                        <div class="flex justify-between items-center">
+                        <div class="flex justify-end items-center">
                             <button onclick="toggleTheme()" class="p-2.5 rounded-xl bg-gray-100 dark:bg-lux-dark text-gold-500 text-sm font-bold shadow"><i class="fa-solid fa-${state.theme==='dark'?'sun':'moon'}"></i></button>
-                            <button onclick="toggleLanguage()" class="px-3.5 py-1.5 rounded-xl bg-gray-100 dark:bg-lux-dark text-xs font-bold text-gold-500 shadow">${state.lang==='ar'?'English':'العربية'}</button>
                         </div>
                         <div class="text-center space-y-2">
                             <div class="w-14 h-14 rounded-full bg-gold-500/20 text-gold-500 border border-gold-500/50 mx-auto flex items-center justify-center text-2xl mb-4">
                                 <i class="fa-solid fa-gem"></i>
                             </div>
-                            <h1 class="text-3xl font-black">${t('loginTitle')}</h1>
-                            <p class="text-xs text-gray-500 dark:text-gray-400">${t('loginSubtitle')}</p>
+                            <h1 class="text-3xl font-black">تسجيل دخول العملاء</h1>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">مرحباً بك في متجر AURORA الفاخر</p>
                         </div>
 
                         <form onsubmit="handleCustomerLogin(event)" class="space-y-4">
                             <div>
-                                <label class="block text-sm font-bold mb-1.5 text-gray-700 dark:text-gray-300">${t('emailLabel')} *</label>
+                                <label class="block text-sm font-bold mb-1.5 text-gray-700 dark:text-gray-300">البريد الإلكتروني *</label>
                                 <input type="email" id="login-email" required placeholder="customer@aurora-eg.com" class="w-full bg-gray-50 dark:bg-lux-dark border border-gray-200 dark:border-lux-border rounded-2xl py-3 px-4 text-sm focus:outline-none focus:border-gold-500">
                             </div>
                             <div>
-                                <label class="block text-sm font-bold mb-1.5 text-gray-700 dark:text-gray-300">${t('passwordLabel')} *</label>
+                                <label class="block text-sm font-bold mb-1.5 text-gray-700 dark:text-gray-300">كلمة المرور *</label>
                                 <input type="password" id="login-password" required placeholder="••••••••" class="w-full bg-gray-50 dark:bg-lux-dark border border-gray-200 dark:border-lux-border rounded-2xl py-3 px-4 text-sm focus:outline-none focus:border-gold-500">
                             </div>
                             <button type="submit" class="w-full bg-gold-500 hover:bg-gold-600 text-lux-dark font-bold py-3.5 rounded-2xl shadow-xl transition-all">
-                                ${t('loginBtn')}
+                                تسجيل الدخول للتسوق
                             </button>
                         </form>
 
                         <div class="text-center pt-4 border-t border-gray-200 dark:border-lux-border">
                             <button onclick="state.currentRoute='admin/login'; renderApp();" class="text-xs text-gray-500 hover:text-gold-500 transition-colors">
-                                ${t('adminPortalLink')} <i class="fa-solid fa-arrow-left mr-1"></i>
+                                الدخول إلى لوحة تحكم المدير <i class="fa-solid fa-arrow-left mr-1"></i>
                             </button>
                         </div>
 
@@ -489,16 +345,15 @@
             return `
                 <div class="min-h-screen flex items-center justify-center px-4 py-12 bg-lux-light dark:bg-lux-dark">
                     <div class="max-w-md w-full bg-white dark:bg-lux-card border border-gray-200 dark:border-lux-border rounded-3xl p-8 lg:p-10 shadow-2xl space-y-8">
-                        <div class="flex justify-between items-center">
+                        <div class="flex justify-end items-center">
                             <button onclick="toggleTheme()" class="p-2.5 rounded-xl bg-gray-100 dark:bg-lux-dark text-gold-500 text-sm font-bold shadow"><i class="fa-solid fa-${state.theme==='dark'?'sun':'moon'}"></i></button>
-                            <button onclick="toggleLanguage()" class="px-3.5 py-1.5 rounded-xl bg-gray-100 dark:bg-lux-dark text-xs font-bold text-gold-500 shadow">${state.lang==='ar'?'English':'العربية'}</button>
                         </div>
                         <div class="text-center space-y-2">
                             <div class="w-14 h-14 rounded-full bg-gold-500/20 text-gold-500 border border-gold-500/50 mx-auto flex items-center justify-center text-2xl mb-4">
                                 <i class="fa-solid fa-lock"></i>
                             </div>
-                            <h1 class="text-3xl font-black">${t('adminLoginTitle')}</h1>
-                            <p class="text-xs text-gray-500 dark:text-gray-400">${t('adminLoginSubtitle')}</p>
+                            <h1 class="text-3xl font-black">بوابة إدارة المتجر</h1>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">تسجيل دخول المدير المعتمد فقط</p>
                         </div>
 
                         <form onsubmit="handleAdminLogin(event)" class="space-y-4">
@@ -511,13 +366,13 @@
                                 <input type="password" id="admin-password" required placeholder="••••••••" class="w-full bg-gray-50 dark:bg-lux-dark border border-gray-200 dark:border-lux-border rounded-2xl py-3 px-4 text-sm focus:outline-none focus:border-gold-500">
                             </div>
                             <button type="submit" class="w-full bg-gold-500 hover:bg-gold-600 text-lux-dark font-bold py-3.5 rounded-2xl shadow-xl transition-all">
-                                ${t('adminLoginBtn')}
+                                الدخول إلى لوحة التحكم
                             </button>
                         </form>
 
                         <div class="text-center pt-4 border-t border-gray-200 dark:border-lux-border">
                             <button onclick="state.currentRoute='login'; renderApp();" class="text-xs text-gray-500 hover:text-gold-500 transition-colors">
-                                <i class="fa-solid fa-arrow-right ml-1"></i> ${t('backToStore')}
+                                <i class="fa-solid fa-arrow-right ml-1"></i> العودة إلى واجهة متجر العملاء
                             </button>
                         </div>
 
@@ -557,7 +412,7 @@
         }
 
         /* ==========================================================================
-           5. STOREFRONT & FULLY FUNCTIONAL SEARCH SYSTEM
+           4. STOREFRONT & SEARCH SYSTEM
            ========================================================================== */
         function renderCustomerHeader(db) {
             const cartCount = db.cart.reduce((s, i) => s + i.qty, 0);
@@ -573,7 +428,7 @@
                                     <i class="fa-solid fa-gem text-lg"></i>
                                 </div>
                                 <div class="hidden sm:block">
-                                    <span class="text-2xl font-black tracking-widest bg-gradient-to-r from-gold-400 to-gold-600 bg-clip-text text-transparent">${t('storeName')}</span>
+                                    <span class="text-2xl font-black tracking-widest bg-gradient-to-r from-gold-400 to-gold-600 bg-clip-text text-transparent">AURORA</span>
                                     <span class="block text-[10px] tracking-widest text-gray-400 uppercase font-semibold">Storefront</span>
                                 </div>
                             </button>
@@ -582,7 +437,7 @@
                         <!-- Search Bar -->
                         <div class="flex-1 max-w-lg mx-4 sm:mx-8">
                             <div class="relative w-full">
-                                <input type="text" id="live-search-input" value="${state.searchQuery}" oninput="handleSearchInput(this.value)" onkeydown="handleSearchKeydown(event, this.value)" placeholder="${t('searchPlaceholder')}" 
+                                <input type="text" id="live-search-input" value="${state.searchQuery}" oninput="handleSearchInput(this.value)" onkeydown="handleSearchKeydown(event, this.value)" placeholder="ابحث عن الساعات، الحقائب، العطور، أو الماركات..." 
                                     class="w-full bg-white dark:bg-lux-card border border-gray-200 dark:border-lux-border rounded-full py-2.5 pr-10 pl-10 text-xs sm:text-sm focus:outline-none focus:border-gold-500 transition-all shadow-sm">
                                 <i class="fa-solid fa-search absolute right-3.5 top-3.5 text-gray-400"></i>
                                 ${state.searchQuery ? `<button onclick="state.searchQuery=''; renderApp();" class="absolute left-3.5 top-3 text-gray-400 hover:text-gold-500"><i class="fa-solid fa-xmark text-sm"></i></button>` : ''}
@@ -592,10 +447,6 @@
                         <div class="flex items-center space-x-3 sm:space-x-5 space-x-reverse">
                             <button onclick="toggleTheme()" class="p-2 text-gray-600 dark:text-gray-300 hover:text-gold-500 transition-colors">
                                 <i class="fa-solid fa-${state.theme==='dark'?'sun':'moon'} text-xl"></i>
-                            </button>
-
-                            <button onclick="toggleLanguage()" class="px-3 py-1.5 rounded-xl bg-gray-100 dark:bg-lux-card text-xs font-bold text-gold-500 border border-gray-200 dark:border-lux-border">
-                                ${state.lang==='ar'?'English':'العربية'}
                             </button>
 
                             <button onclick="toggleWishlistDrawer(true)" class="relative p-2 text-gray-600 dark:text-gray-300 hover:text-gold-500 transition-colors">
@@ -619,11 +470,11 @@
                                 <div class="absolute left-0 mt-2 w-48 bg-white dark:bg-lux-card border border-gray-200 dark:border-lux-border rounded-2xl shadow-2xl py-2 hidden group-hover:block z-50">
                                     <button onclick="state.currentRoute='my-orders'; renderApp();" class="w-full text-right px-4 py-2.5 text-sm hover:bg-gold-500/10 hover:text-gold-500 flex items-center space-x-3 space-x-reverse">
                                         <i class="fa-regular fa-rectangle-list w-5 text-gray-400"></i>
-                                        <span>${t('myOrders')}</span>
+                                        <span>طلباتي السابقة</span>
                                     </button>
                                     <button onclick="logoutCustomer()" class="w-full text-right px-4 py-2.5 text-sm hover:bg-red-500/10 text-red-500 flex items-center space-x-3 space-x-reverse">
                                         <i class="fa-solid fa-right-from-bracket w-5"></i>
-                                        <span>${t('logout')}</span>
+                                        <span>تسجيل الخروج</span>
                                     </button>
                                 </div>
                             </div>
@@ -635,7 +486,6 @@
 
         function handleSearchInput(val) {
             state.searchQuery = val;
-            // Real-time re-filter on store view
             if (state.currentRoute === 'store') {
                 const resultsContainer = document.getElementById('products-grid-container');
                 if (resultsContainer) {
@@ -676,7 +526,7 @@
                         <div class="w-16 h-16 bg-gold-500/10 text-gold-500 rounded-full flex items-center justify-center mx-auto text-2xl">
                             <i class="fa-solid fa-search"></i>
                         </div>
-                        <h3 class="text-xl font-bold">${t('noSearchResults')}</h3>
+                        <h3 class="text-xl font-bold">عذراً، لم نجد أي منتجات تطابق بحثك.</h3>
                         <p class="text-xs text-gray-400">${state.searchQuery ? `"${state.searchQuery}"` : ''}</p>
                         <button onclick="state.searchQuery=''; state.selectedCategory='all'; renderApp();" class="px-6 py-2.5 bg-gold-500 text-lux-dark font-bold rounded-xl text-xs">عرض كافة المنتجات</button>
                     </div>
@@ -705,7 +555,7 @@
 
                     ${state.searchQuery ? `
                         <div class="flex items-center justify-between bg-gold-500/10 border border-gold-500/30 p-4 rounded-2xl">
-                            <span class="text-sm font-bold text-gold-500">${t('searchResultsFor')} "${state.searchQuery}"</span>
+                            <span class="text-sm font-bold text-gold-500">نتائج البحث عن: "${state.searchQuery}"</span>
                             <button onclick="state.searchQuery=''; renderApp();" class="text-xs text-gray-400 hover:text-gold-500">إلغاء البحث</button>
                         </div>
                     ` : ''}
@@ -744,7 +594,7 @@
                             <span class="text-lg font-black text-gold-500">${formatEGP(product.salePrice)}</span>
                             <button onclick="addToCart('${product.id}')" ${product.stock <= 0 ? 'disabled' : ''} class="bg-gold-500 hover:bg-gold-600 disabled:bg-gray-400 text-lux-dark font-bold px-4 py-2.5 rounded-xl text-xs flex items-center space-x-2 space-x-reverse transition-all">
                                 <i class="fa-solid fa-cart-plus"></i>
-                                <span>${t('addToCart')}</span>
+                                <span>إضافة للسلة</span>
                             </button>
                         </div>
                     </div>
@@ -758,7 +608,7 @@
 
             return `
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
-                    <button onclick="state.currentRoute='store'; renderApp();" class="text-gold-500 text-sm font-bold flex items-center space-x-2 space-x-reverse"><i class="fa-solid fa-arrow-right"></i><span>${t('backToStore')}</span></button>
+                    <button onclick="state.currentRoute='store'; renderApp();" class="text-gold-500 text-sm font-bold flex items-center space-x-2 space-x-reverse"><i class="fa-solid fa-arrow-right"></i><span>العودة إلى واجهة متجر العملاء</span></button>
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-white dark:bg-lux-card border border-gray-200 dark:border-lux-border rounded-3xl p-8 lg:p-12 shadow-xl">
                         <div class="aspect-square rounded-3xl overflow-hidden bg-gray-100 dark:bg-lux-dark border border-gray-200 dark:border-lux-border">
                             <img src="${product.images[0]}" class="object-cover w-full h-full" onerror="this.src='https://placehold.co/600x600/161616/d9b66f?text=AURORA'">
@@ -769,10 +619,10 @@
                             <div class="text-3xl font-black text-gold-500">${formatEGP(product.salePrice)}</div>
                             <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">${product.description}</p>
                             <div class="font-bold text-sm ${product.stock > 0 ? 'text-emerald-500' : 'text-red-500'}">
-                                ${product.stock > 0 ? `${t('inStock')} (${product.stock})` : t('outOfStock')}
+                                ${product.stock > 0 ? `متوفر في المخزون (${product.stock})` : 'نفذت الكمية'}
                             </div>
                             <button onclick="addToCart('${product.id}')" ${product.stock <= 0 ? 'disabled' : ''} class="w-full bg-gold-500 hover:bg-gold-600 disabled:bg-gray-400 text-lux-dark font-bold py-4 rounded-2xl shadow-xl transition-all">
-                                ${t('addToCart')}
+                                إضافة للسلة
                             </button>
                         </div>
                     </div>
@@ -792,31 +642,31 @@
 
             return `
                 <div class="max-w-3xl mx-auto px-4 py-12 space-y-8">
-                    <h1 class="text-3xl font-black">${t('checkoutTitle')}</h1>
+                    <h1 class="text-3xl font-black">إتمام الطلب في متجر أورورا</h1>
                     <form onsubmit="handleCustomerCheckout(event)" class="bg-white dark:bg-lux-card border border-gray-200 dark:border-lux-border rounded-3xl p-8 space-y-6 shadow-xl">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label class="block text-sm font-bold mb-2">${t('fullName')} *</label>
+                                <label class="block text-sm font-bold mb-2">الاسم الكامل *</label>
                                 <input type="text" id="chk-name" required value="${user.name}" class="w-full bg-gray-50 dark:bg-lux-dark border border-gray-200 dark:border-lux-border rounded-2xl py-3 px-4 text-sm focus:outline-none focus:border-gold-500">
                             </div>
                             <div>
-                                <label class="block text-sm font-bold mb-2">${t('phone')} *</label>
+                                <label class="block text-sm font-bold mb-2">رقم الجوال *</label>
                                 <input type="tel" id="chk-phone" required value="${user.phone || '01012345678'}" class="w-full bg-gray-50 dark:bg-lux-dark border border-gray-200 dark:border-lux-border rounded-2xl py-3 px-4 text-sm focus:outline-none focus:border-gold-500">
                             </div>
                             <div class="md:col-span-2">
-                                <label class="block text-sm font-bold mb-2">${t('deliveryAddress')} *</label>
+                                <label class="block text-sm font-bold mb-2">عنوان التوصيل بالتفصيل (المحافظة، المدينة، الشارع، المبنى) *</label>
                                 <input type="text" id="chk-address" required placeholder="القاهرة، المعادي، شارع النصر، مبنى 14" class="w-full bg-gray-50 dark:bg-lux-dark border border-gray-200 dark:border-lux-border rounded-2xl py-3 px-4 text-sm focus:outline-none focus:border-gold-500">
                             </div>
                         </div>
 
                         <div class="border-t border-gray-200 dark:border-lux-border pt-4 space-y-2 text-sm">
-                            <div class="flex justify-between"><span>${t('subtotal')}:</span> <strong>${formatEGP(subtotal)}</strong></div>
-                            <div class="flex justify-between"><span>${t('shipping')}:</span> <strong>${shipping === 0 ? t('freeShipping') : formatEGP(shipping)}</strong></div>
-                            <div class="flex justify-between text-xl font-black text-gold-500 pt-2 border-t border-gray-200 dark:border-lux-border"><span>${t('total')}:</span> <span>${formatEGP(total)}</span></div>
+                            <div class="flex justify-between"><span>المجموع الفرعي:</span> <strong>${formatEGP(subtotal)}</strong></div>
+                            <div class="flex justify-between"><span>مصاريف الشحن:</span> <strong>${shipping === 0 ? 'مجاناً' : formatEGP(shipping)}</strong></div>
+                            <div class="flex justify-between text-xl font-black text-gold-500 pt-2 border-t border-gray-200 dark:border-lux-border"><span>الإجمالي النهائي:</span> <span>${formatEGP(total)}</span></div>
                         </div>
 
                         <button type="submit" class="w-full bg-gold-500 hover:bg-gold-600 text-lux-dark font-bold py-4 rounded-2xl shadow-xl transition-all">
-                            ${t('confirmOrder')}
+                            تأكيد الطلب (الدفع كاش عند الاستلام)
                         </button>
                     </form>
                 </div>
@@ -824,7 +674,7 @@
         }
 
         /* ==========================================================================
-           6. FINANCIAL ORDER CALCULATIONS & SNAPSHOTS
+           5. FINANCIAL ORDER CALCULATIONS & SNAPSHOTS
            ========================================================================== */
         function handleCustomerCheckout(e) {
             e.preventDefault();
@@ -888,11 +738,11 @@
             return `
                 <div class="max-w-2xl mx-auto px-4 py-24 text-center space-y-6">
                     <div class="w-20 h-20 bg-emerald-500/20 text-emerald-500 rounded-full mx-auto flex items-center justify-center text-4xl"><i class="fa-solid fa-check"></i></div>
-                    <h1 class="text-3xl font-black">${t('orderSuccess')} ${ord.customerName}</h1>
-                    <p class="text-gray-500 dark:text-gray-400 text-sm">${t('orderNum')}: <strong class="text-gold-500">${ord.id}</strong></p>
+                    <h1 class="text-3xl font-black">شكراً لطلبك! ${ord.customerName}</h1>
+                    <p class="text-gray-500 dark:text-gray-400 text-sm">رقم الطلب: <strong class="text-gold-500">${ord.id}</strong></p>
                     <div class="flex justify-center space-x-4 space-x-reverse">
                         <button onclick="state.selectedOrderId='${ord.id}'; state.currentRoute='order-detail'; renderApp();" class="bg-lux-dark text-white border border-lux-border font-bold px-6 py-3.5 rounded-2xl shadow">عرض تفاصيل الطلب الكاملة</button>
-                        <button onclick="state.currentRoute='store'; renderApp();" class="bg-gold-500 text-lux-dark font-bold px-6 py-3.5 rounded-2xl shadow">${t('backToStore')}</button>
+                        <button onclick="state.currentRoute='store'; renderApp();" class="bg-gold-500 text-lux-dark font-bold px-6 py-3.5 rounded-2xl shadow">العودة إلى واجهة متجر العملاء</button>
                     </div>
                 </div>
             `;
@@ -904,14 +754,14 @@
 
             return `
                 <div class="max-w-7xl mx-auto px-4 py-12 space-y-8">
-                    <h1 class="text-3xl font-black">${t('myOrders')} (${myOrders.length})</h1>
+                    <h1 class="text-3xl font-black">طلباتي السابقة (${myOrders.length})</h1>
                     ${myOrders.length === 0 ? `<div class="text-center py-16 text-gray-400">ليس لديك أي طلبات سابقة.</div>` : `
                         <div class="space-y-4">
                             ${myOrders.map(o => `
                                 <div class="bg-white dark:bg-lux-card border border-gray-200 dark:border-lux-border rounded-3xl p-6 flex flex-col md:flex-row justify-between items-center gap-4 shadow-sm">
                                     <div>
                                         <strong class="text-gold-500 text-lg">${o.id}</strong>
-                                        <span class="block text-xs text-gray-500 dark:text-gray-400 mt-1">${t('currentStatus')}: <strong class="text-gold-500">${o.status}</strong></span>
+                                        <span class="block text-xs text-gray-500 dark:text-gray-400 mt-1">الحالة الحالية: <strong class="text-gold-500">${o.status}</strong></span>
                                         <span class="block text-xs text-gray-400 mt-0.5">${new Date(o.date).toLocaleString('ar-EG')}</span>
                                     </div>
                                     <div class="flex items-center space-x-4 space-x-reverse">
@@ -920,7 +770,7 @@
                                             <span class="block text-xs text-gray-400">${o.items.length} منتجات</span>
                                         </div>
                                         <button onclick="state.selectedOrderId='${o.id}'; state.currentRoute='order-detail'; renderApp();" class="px-5 py-2.5 bg-gold-500/20 text-gold-500 border border-gold-500/40 rounded-xl text-xs font-bold hover:bg-gold-500 hover:text-lux-dark transition-all">
-                                            ${t('viewDetails')}
+                                            عرض تفاصيل الطلب الكاملة
                                         </button>
                                     </div>
                                 </div>
@@ -954,19 +804,19 @@
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
                             <div class="bg-gray-50 dark:bg-lux-dark p-4 rounded-2xl border border-gray-200 dark:border-lux-border space-y-2">
-                                <h4 class="font-bold text-gold-500">${t('customerInfo')}</h4>
+                                <h4 class="font-bold text-gold-500">معلومات العميل</h4>
                                 <p>الاسم: <strong>${ord.customerName}</strong></p>
                                 <p>الجوال: <strong>${ord.phone}</strong></p>
                                 <p>البريد: <strong>${ord.email}</strong></p>
                             </div>
                             <div class="bg-gray-50 dark:bg-lux-dark p-4 rounded-2xl border border-gray-200 dark:border-lux-border space-y-2">
-                                <h4 class="font-bold text-gold-500">${t('shippingInfo')}</h4>
+                                <h4 class="font-bold text-gold-500">معلومات الشحن والدفع</h4>
                                 <p>${ord.address}</p>
                             </div>
                         </div>
 
                         <div class="space-y-4">
-                            <h3 class="font-bold text-base">${t('orderedProducts')} (${ord.items.length})</h3>
+                            <h3 class="font-bold text-base">المنتجات المطلوبة (${ord.items.length})</h3>
                             <div class="space-y-3">
                                 ${ord.items.map(item => `
                                     <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-lux-dark rounded-2xl border border-gray-200 dark:border-lux-border">
@@ -987,9 +837,9 @@
                         </div>
 
                         <div class="border-t border-gray-200 dark:border-lux-border pt-4 space-y-2 text-sm max-w-sm mr-auto">
-                            <div class="flex justify-between"><span>${t('subtotal')}:</span> <strong>${formatEGP(subtotalNum)}</strong></div>
-                            <div class="flex justify-between"><span>${t('shipping')}:</span> <strong>${shippingNum === 0 ? t('freeShipping') : formatEGP(shippingNum)}</strong></div>
-                            <div class="flex justify-between text-lg font-black text-gold-500 pt-2 border-t border-gray-200 dark:border-lux-border"><span>${t('total')}:</span> <span>${formatEGP(totalNum)}</span></div>
+                            <div class="flex justify-between"><span>المجموع الفرعي:</span> <strong>${formatEGP(subtotalNum)}</strong></div>
+                            <div class="flex justify-between"><span>مصاريف الشحن:</span> <strong>${shippingNum === 0 ? 'مجاناً' : formatEGP(shippingNum)}</strong></div>
+                            <div class="flex justify-between text-lg font-black text-gold-500 pt-2 border-t border-gray-200 dark:border-lux-border"><span>الإجمالي النهائي:</span> <span>${formatEGP(totalNum)}</span></div>
                         </div>
                     </div>
                 </div>
@@ -1005,7 +855,7 @@
         }
 
         /* ==========================================================================
-           7. CART & WISHLIST DRAWERS
+           6. CART & WISHLIST DRAWERS
            ========================================================================== */
         function toggleCartDrawer(open) {
             state.cartDrawerOpen = open;
@@ -1056,7 +906,7 @@
                     <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="toggleCartDrawer(false)"></div>
                     <div class="absolute inset-y-0 left-0 max-w-md w-full bg-white dark:bg-lux-card shadow-2xl flex flex-col border-r border-gray-200 dark:border-lux-border">
                         <div class="p-6 border-b border-gray-200 dark:border-lux-border flex justify-between items-center">
-                            <h2 class="text-xl font-black">${t('cartTitle')} (${db.cart.reduce((s, i) => s + i.qty, 0)})</h2>
+                            <h2 class="text-xl font-black">سلة الشراء (${db.cart.reduce((s, i) => s + i.qty, 0)})</h2>
                             <button onclick="toggleCartDrawer(false)"><i class="fa-solid fa-xmark text-xl"></i></button>
                         </div>
                         <div class="flex-grow overflow-y-auto p-6 space-y-4">
@@ -1065,10 +915,10 @@
                                     <div class="w-16 h-16 bg-gold-500/10 text-gold-500 rounded-full flex items-center justify-center mx-auto text-2xl">
                                         <i class="fa-solid fa-bag-shopping"></i>
                                     </div>
-                                    <h3 class="font-bold text-lg">${state.lang === 'ar' ? 'سلة الشراء فارغة' : 'Your cart is empty'}</h3>
-                                    <p class="text-xs text-gray-400">${state.lang === 'ar' ? 'لم تقم بإضافة أي منتجات للسلة بعد.' : 'You have not added any products yet.'}</p>
+                                    <h3 class="font-bold text-lg">سلة الشراء فارغة</h3>
+                                    <p class="text-xs text-gray-400">لم تقم بإضافة أي منتجات للسلة بعد.</p>
                                     <button onclick="toggleCartDrawer(false); state.currentRoute='store'; renderApp();" class="px-6 py-2.5 bg-gold-500 text-lux-dark font-bold rounded-xl text-xs shadow">
-                                        ${state.lang === 'ar' ? 'العودة للتسوق' : 'Return to Shop'}
+                                        العودة للتسوق
                                     </button>
                                 </div>
                             ` : db.cart.map(i => `
@@ -1080,7 +930,7 @@
                                             <span class="text-gold-500 font-bold">${formatEGP(i.price)} × ${i.qty}</span>
                                         </div>
                                     </div>
-                                    <button onclick="removeFromCart('${i.productId}')" class="p-2.5 rounded-xl bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-colors" title="${state.lang === 'ar' ? 'حذف من السلة' : 'Remove from cart'}">
+                                    <button onclick="removeFromCart('${i.productId}')" class="p-2.5 rounded-xl bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-colors" title="حذف من السلة">
                                         <i class="fa-solid fa-trash-can text-sm"></i>
                                     </button>
                                 </div>
@@ -1089,7 +939,7 @@
                         ${db.cart.length > 0 ? `
                             <div class="p-6 border-t border-gray-200 dark:border-lux-border bg-gray-50 dark:bg-lux-dark space-y-4">
                                 <div class="flex justify-between text-lg font-black text-gold-500">
-                                    <span>${t('subtotal')}:</span>
+                                    <span>المجموع الفرعي:</span>
                                     <span>${formatEGP(subtotal)}</span>
                                 </div>
                                 <button onclick="toggleCartDrawer(false); state.currentRoute='checkout'; renderApp();" class="w-full bg-gold-500 hover:bg-gold-600 text-lux-dark font-bold py-3.5 rounded-2xl shadow">
@@ -1106,7 +956,7 @@
             const db = getDB();
             db.cart = db.cart.filter(i => i.productId !== prodId);
             saveDB('cart', db.cart);
-            showToast(state.lang === 'ar' ? 'تم حذف المنتج من السلة' : 'Product removed from cart');
+            showToast('تم حذف المنتج من السلة');
         }
 
         function renderWishlistDrawer(db) {
@@ -1117,7 +967,7 @@
                     <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="toggleWishlistDrawer(false)"></div>
                     <div class="absolute inset-y-0 left-0 max-w-md w-full bg-white dark:bg-lux-card shadow-2xl flex flex-col border-r border-gray-200 dark:border-lux-border">
                         <div class="p-6 border-b border-gray-200 dark:border-lux-border flex justify-between items-center">
-                            <h2 class="text-xl font-black">${t('wishlistTitle')} (${wishProds.length})</h2>
+                            <h2 class="text-xl font-black">قائمة المفضلة (${wishProds.length})</h2>
                             <button onclick="toggleWishlistDrawer(false)"><i class="fa-solid fa-xmark text-xl"></i></button>
                         </div>
                         <div class="flex-grow overflow-y-auto p-6 space-y-4">
@@ -1137,7 +987,7 @@
         }
 
         /* ==========================================================================
-           8. ADMINISTRATOR MANAGEMENT PANEL & ROBUST IMAGE UPLOAD
+           7. ADMINISTRATOR MANAGEMENT PANEL & IMAGE UPLOAD
            ========================================================================== */
         function renderAdminHeader(db) {
             const admin = db.session.user;
@@ -1148,14 +998,13 @@
                             <div class="w-10 h-10 rounded-full bg-gold-500 flex items-center justify-center text-lux-dark font-black">
                                 <i class="fa-solid fa-gauge-high"></i>
                             </div>
-                            <span class="text-lg sm:text-xl font-black text-gold-500">${t('adminDashboard')}</span>
+                            <span class="text-lg sm:text-xl font-black text-gold-500">لوحة تحكم المدير المركزي</span>
                         </div>
                         <div class="flex items-center space-x-4 space-x-reverse">
                             <button onclick="toggleTheme()" class="p-2 text-gray-600 dark:text-gray-300 hover:text-gold-500"><i class="fa-solid fa-${state.theme==='dark'?'sun':'moon'}"></i></button>
-                            <button onclick="toggleLanguage()" class="px-3 py-1.5 rounded-xl bg-gray-100 dark:bg-lux-dark text-xs font-bold text-gold-500">${state.lang==='ar'?'English':'العربية'}</button>
                             <span class="hidden sm:inline text-sm font-semibold">${admin.email}</span>
                             <button onclick="logoutAdmin()" class="bg-red-500/20 text-red-500 border border-red-500/40 hover:bg-red-500 hover:text-white font-bold px-4 py-2 rounded-xl text-xs transition-colors">
-                                ${t('logout')}
+                                تسجيل الخروج
                             </button>
                         </div>
                     </div>
@@ -1168,24 +1017,24 @@
             return `
                 <div class="max-w-7xl mx-auto px-4 py-12 space-y-8">
                     <div class="flex flex-wrap gap-3 bg-white dark:bg-lux-card border border-gray-200 dark:border-lux-border p-6 rounded-3xl shadow-sm">
-                        <button onclick="state.adminTab='overview'; renderApp();" class="px-5 py-2.5 rounded-2xl font-bold text-xs sm:text-sm ${state.adminTab==='overview'?'bg-gold-500 text-lux-dark':'bg-gray-100 dark:bg-lux-dark'}">${t('overview')}</button>
-                        <button onclick="state.adminTab='products'; renderApp();" class="px-5 py-2.5 rounded-2xl font-bold text-xs sm:text-sm ${state.adminTab==='products'?'bg-gold-500 text-lux-dark':'bg-gray-100 dark:bg-lux-dark'}">${t('productsMgmt')} (${db.products.length})</button>
-                        <button onclick="state.editingProduct=null; state.adminTab='add-product'; renderApp();" class="px-5 py-2.5 rounded-2xl font-bold text-xs sm:text-sm bg-gold-500/20 text-gold-500 border border-gold-500/40"><i class="fa-solid fa-plus ml-1"></i> ${t('addProduct')}</button>
-                        <button onclick="state.adminTab='orders'; renderApp();" class="px-5 py-2.5 rounded-2xl font-bold text-xs sm:text-sm ${state.adminTab==='orders'?'bg-gold-500 text-lux-dark':'bg-gray-100 dark:bg-lux-dark'}">${t('ordersMgmt')} (${db.orders.length})</button>
+                        <button onclick="state.adminTab='overview'; renderApp();" class="px-5 py-2.5 rounded-2xl font-bold text-xs sm:text-sm ${state.adminTab==='overview'?'bg-gold-500 text-lux-dark':'bg-gray-100 dark:bg-lux-dark'}">نظرة عامة والماليات</button>
+                        <button onclick="state.adminTab='products'; renderApp();" class="px-5 py-2.5 rounded-2xl font-bold text-xs sm:text-sm ${state.adminTab==='products'?'bg-gold-500 text-lux-dark':'bg-gray-100 dark:bg-lux-dark'}">إدارة المنتجات (${db.products.length})</button>
+                        <button onclick="state.editingProduct=null; state.adminTab='add-product'; renderApp();" class="px-5 py-2.5 rounded-2xl font-bold text-xs sm:text-sm bg-gold-500/20 text-gold-500 border border-gold-500/40"><i class="fa-solid fa-plus ml-1"></i> إضافة منتج</button>
+                        <button onclick="state.adminTab='orders'; renderApp();" class="px-5 py-2.5 rounded-2xl font-bold text-xs sm:text-sm ${state.adminTab==='orders'?'bg-gold-500 text-lux-dark':'bg-gray-100 dark:bg-lux-dark'}">إدارة الطلبات (${db.orders.length})</button>
                     </div>
 
                     ${state.adminTab === 'overview' ? `
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <div class="bg-white dark:bg-lux-card border border-gray-200 dark:border-lux-border p-8 rounded-3xl space-y-2 shadow-sm">
-                                <span class="text-gray-400 text-xs">${t('totalSales')}</span>
+                                <span class="text-gray-400 text-xs">إجمالي المبيعات</span>
                                 <div class="text-3xl font-black text-gold-500">${formatEGP(totalRev)}</div>
                             </div>
                             <div class="bg-white dark:bg-lux-card border border-gray-200 dark:border-lux-border p-8 rounded-3xl space-y-2 shadow-sm">
-                                <span class="text-gray-400 text-xs">${t('totalOrders')}</span>
+                                <span class="text-gray-400 text-xs">إجمالي الطلبات</span>
                                 <div class="text-3xl font-black">${db.orders.length}</div>
                             </div>
                             <div class="bg-white dark:bg-lux-card border border-gray-200 dark:border-lux-border p-8 rounded-3xl space-y-2 shadow-sm">
-                                <span class="text-gray-400 text-xs">${t('activeProducts')}</span>
+                                <span class="text-gray-400 text-xs">المنتجات النشطة</span>
                                 <div class="text-3xl font-black text-emerald-500">${db.products.length}</div>
                             </div>
                         </div>
@@ -1193,7 +1042,7 @@
 
                     ${state.adminTab === 'products' ? `
                         <div class="bg-white dark:bg-lux-card border border-gray-200 dark:border-lux-border p-8 rounded-3xl space-y-6 shadow-sm overflow-x-auto">
-                            <h3 class="text-xl font-bold">${t('productsMgmt')}</h3>
+                            <h3 class="text-xl font-bold">إدارة المنتجات</h3>
                             <div class="space-y-4 min-w-[600px]">
                                 ${db.products.map(p => `
                                     <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-lux-dark rounded-2xl border border-gray-200 dark:border-lux-border">
@@ -1205,8 +1054,8 @@
                                             </div>
                                         </div>
                                         <div class="space-x-2 space-x-reverse">
-                                            <button onclick="editAdminProduct('${p.id}')" class="px-4 py-2 bg-gold-500/20 text-gold-500 rounded-xl text-xs font-bold">${t('edit')}</button>
-                                            <button onclick="deleteAdminProduct('${p.id}')" class="px-4 py-2 bg-red-500/20 text-red-500 rounded-xl text-xs font-bold">${t('delete')}</button>
+                                            <button onclick="editAdminProduct('${p.id}')" class="px-4 py-2 bg-gold-500/20 text-gold-500 rounded-xl text-xs font-bold">تعديل</button>
+                                            <button onclick="deleteAdminProduct('${p.id}')" class="px-4 py-2 bg-red-500/20 text-red-500 rounded-xl text-xs font-bold">حذف</button>
                                         </div>
                                     </div>
                                 `).join('')}
@@ -1218,7 +1067,7 @@
 
                     ${state.adminTab === 'orders' ? `
                         <div class="bg-white dark:bg-lux-card border border-gray-200 dark:border-lux-border p-8 rounded-3xl space-y-6 shadow-sm">
-                            <h3 class="text-xl font-bold">${t('ordersMgmt')}</h3>
+                            <h3 class="text-xl font-bold">إدارة الطلبات</h3>
                             <div class="space-y-4">
                                 ${db.orders.map(o => `
                                     <div class="p-6 bg-gray-50 dark:bg-lux-dark rounded-3xl border border-gray-200 dark:border-lux-border space-y-4">
@@ -1233,7 +1082,7 @@
                                                     <span class="text-xl font-black text-gold-500">${formatEGP(o.total)}</span>
                                                 </div>
                                                 <button onclick="state.selectedOrderId='${o.id}'; state.currentRoute='admin/order-detail'; renderApp();" class="px-5 py-2.5 bg-gold-500 text-lux-dark rounded-xl text-xs font-bold shadow">
-                                                    ${t('viewDetails')}
+                                                    عرض تفاصيل الطلب
                                                 </button>
                                             </div>
                                         </div>
@@ -1280,20 +1129,20 @@
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
                             <div class="bg-gray-50 dark:bg-lux-dark p-4 rounded-2xl border border-gray-200 dark:border-lux-border space-y-2">
-                                <h4 class="font-bold text-gold-500">${t('customerInfo')}</h4>
+                                <h4 class="font-bold text-gold-500">معلومات العميل</h4>
                                 <p>الاسم: <strong>${ord.customerName}</strong></p>
                                 <p>الجوال: <strong>${ord.phone}</strong></p>
                                 <p>البريد: <strong>${ord.email}</strong></p>
                             </div>
                             <div class="bg-gray-50 dark:bg-lux-dark p-4 rounded-2xl border border-gray-200 dark:border-lux-border space-y-2">
-                                <h4 class="font-bold text-gold-500">${t('shippingInfo')}</h4>
+                                <h4 class="font-bold text-gold-500">معلومات الشحن والدفع</h4>
                                 <p>العنوان: ${ord.address}</p>
                                 <p>طريقة الدفع: <strong>${ord.paymentMethod}</strong></p>
                             </div>
                         </div>
 
                         <div class="space-y-4">
-                            <h3 class="font-bold text-base">${t('orderedProducts')} (${ord.items.length})</h3>
+                            <h3 class="font-bold text-base">المنتجات المطلوبة (${ord.items.length})</h3>
                             <div class="space-y-3">
                                 ${ord.items.map(item => `
                                     <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-lux-dark rounded-2xl border border-gray-200 dark:border-lux-border">
@@ -1314,9 +1163,9 @@
                         </div>
 
                         <div class="border-t border-gray-200 dark:border-lux-border pt-4 space-y-2 text-sm max-w-sm mr-auto">
-                            <div class="flex justify-between"><span>${t('subtotal')}:</span> <strong>${formatEGP(subtotalNum)}</strong></div>
-                            <div class="flex justify-between"><span>${t('shipping')}:</span> <strong>${shippingNum === 0 ? t('freeShipping') : formatEGP(shippingNum)}</strong></div>
-                            <div class="flex justify-between text-lg font-black text-gold-500 pt-2 border-t border-gray-200 dark:border-lux-border"><span>${t('total')}:</span> <span>${formatEGP(totalNum)}</span></div>
+                            <div class="flex justify-between"><span>المجموع الفرعي:</span> <strong>${formatEGP(subtotalNum)}</strong></div>
+                            <div class="flex justify-between"><span>مصاريف الشحن:</span> <strong>${shippingNum === 0 ? 'مجاناً' : formatEGP(shippingNum)}</strong></div>
+                            <div class="flex justify-between text-lg font-black text-gold-500 pt-2 border-t border-gray-200 dark:border-lux-border"><span>الإجمالي النهائي:</span> <span>${formatEGP(totalNum)}</span></div>
                         </div>
                     </div>
                 </div>
@@ -1376,7 +1225,7 @@
                             <label class="block text-sm font-bold mb-2">الوصف *</label>
                             <textarea id="adm-p-desc" required rows="3" class="w-full bg-gray-50 dark:bg-lux-dark border border-gray-200 dark:border-lux-border rounded-2xl py-3 px-4 text-sm focus:outline-none focus:border-gold-500">${p.description || ''}</textarea>
                         </div>
-                        <button type="submit" class="w-full bg-gold-500 hover:bg-gold-600 text-lux-dark font-bold py-4 rounded-2xl shadow-xl transition-all">${t('savePublish')}</button>
+                        <button type="submit" class="w-full bg-gold-500 hover:bg-gold-600 text-lux-dark font-bold py-4 rounded-2xl shadow-xl transition-all">حفظ ونشر في المتجر فوراً</button>
                     </form>
                 </div>
             `;
